@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Periodo
+        </ui:define>
+	<ui:define name="contenido">
+		<br />
+		<h:form id="frm">
+			<p:messages closable="true"></p:messages>
+			<b:panel title="Registro de Periodos" look="primary">
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Nombre del Periodo*" />
+					</b:column>
+					<b:column span="10">
+						<b:inputText value="#{periodoBean.prdId}" required="true"
+							requiredMessage="Campo nombre requerido" validatorMessage="El Nombre del Periodo no Debe Contener Espacios ni Vocales con tilde.">
+							<f:validateRegex pattern="^[A-Z-a-z-0-9-_]+$"  />
+							</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Descripción*" />
+					</b:column>
+					<b:column span="10">
+						<p:inputTextarea value="#{periodoBean.prdDescripcion}"
+							style="width:100%; margin-bottom:15px;" required="true"
+							requiredMessage="Campo descripción requerido" />
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel for="popup" value="Fecha Inicio*" />
+					</b:column>
+					<b:column span="4">
+						<p:calendar id="popup" value="#{periodoBean.prdFechaInicio}" />
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel for="popup2" value="Fecha Fin*" />
+					</b:column>
+					<b:column span="4">
+						<p:calendar id="popup2" value="#{periodoBean.prdFechaFin}" />
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Estado*" rendered="#{periodoBean.edicion}" />
+					</b:column>
+					<b:column span="10">
+						<b:selectOneMenu value="#{periodoBean.prdEstado}"
+							rendered="#{periodoBean.edicion}">
+							<f:selectItems value="#{periodoBean.listEstados}" />
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<br />
+				<b:commandButton value="Guardar"
+					action="#{periodoBean.crearPeriodo}" update="frm" look="info"></b:commandButton>&nbsp;&nbsp;&nbsp;
+					<b:commandButton value="Cancelar" action="#{periodoBean.salir}"
+					immediate="true" update="frm" look="info"></b:commandButton>
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

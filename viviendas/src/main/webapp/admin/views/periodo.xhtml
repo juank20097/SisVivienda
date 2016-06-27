@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+	<ui:composition template="template.xhtml">
+		<ui:define name="titulo">
+            Periodo
+        </ui:define>
+		<ui:define name="contenido">
+			<h:form>
+				<center><h1>PERIODO</h1></center>
+				<b:row>
+					<b:column span="1">
+						<b:commandButton value="Nuevo" iconAwesome="file-o" action="#{periodoBean.nuevoPeriodo}" />
+					</b:column>
+					<b:column span="1">
+						<b:commandButton value="Volver" iconAwesome="angle-left" action="index?faces-redirect=true"/> 
+					</b:column>
+				</b:row>
+			</h:form>
+			<br/>
+        	<h:form id="frm">
+				<p:messages closable="true"></p:messages>
+				<b:panel title="Listado" look="primary">
+					<p:dataTable id="tbb" value="#{periodoBean.listPeriodo}" reflow="true" var="per" rows="8" emptyMessage="Sin Datos"
+					 paginator="true" 
+    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+    					<p:column headerText="OPCIONES" width="100">
+							<p:commandButton id="btnE" icon="ui-icon-pencil" action="#{periodoBean.cargarPeriodo(per)}"/>
+							&nbsp;&nbsp;&nbsp;
+						</p:column>
+    					<p:column filterBy="#{per.prdId}" filterMatchMode="contains" headerText="NOMBRE PERIODO" width="200">
+							<h:outputText value="#{per.prdId}"></h:outputText>
+						</p:column>
+						<p:column headerText="DESCRIPCIÓN" width="250">
+							<h:outputText value="#{per.prdDescripcion}"></h:outputText>
+						</p:column>
+						<p:column headerText="FECHA INICIO" width="110">
+							<h:outputText value="#{per.prdFechaInicio}">
+								 <f:convertDateTime pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="FECHA FIN" width="110">
+							<h:outputText value="#{per.prdFechaFin}">
+								 <f:convertDateTime pattern="MM/dd/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="ESTADO" width="100">
+							<h:outputText value="#{per.prdEstado}"></h:outputText>
+						</p:column>
+						
+    				</p:dataTable>
+				</b:panel>
+			</h:form>
+        </ui:define>
+	</ui:composition>
+	
+</html>

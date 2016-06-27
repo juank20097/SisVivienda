@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<title>Reservas</title>
+</h:head>
+<h:body>
+	<b:container>
+		<br />
+		<b:panel title="Reserva de vivienda" look="primary"
+			collapsible="false">
+			<center>
+				<b:image value="#{facesContex}/resources/img/apartment.png"
+					alt="Departamentos" />
+			</center>
+			<br />
+			<h:form id="frmUsr">
+				<p:messages closable="true" rendered="#{!reservaBean.tokenOk}">
+					<p:effect type="pulsate" event="load" delay="500" />
+				</p:messages>
+				<b:row rendered="#{!reservaBean.tokenOk}">
+					<center>
+						<b:column>
+							<h:outputText value="Ingrese su cédula:" />
+						</b:column>
+						<b:column offset="4" span="4">
+							<b:inputText value="#{reservaBean.dniEstudiante}" maxlength="10"
+								placeholder="Ingrese solo números" />
+						</b:column>
+					</center>
+				</b:row>
+				<b:row rendered="#{!reservaBean.tokenOk}">
+					<b:column span="12">
+						<center>
+							<h:commandButton value="Verificar"
+								actionListener="#{reservaBean.verificarMatriculado()}"
+								styleClass="btn btn-primary btn-lg" />
+						</center>
+					</b:column>
+				</b:row>
+			</h:form>
+			<h:form id="frmRes">
+				<p:messages id="ms" closable="true"
+					rendered="#{reservaBean.tokenOk}" />
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column>
+						<h:outputText style="font-style: oblique;color:#2fa4e7;"
+							value="AL FINALIZAR SU RESERVA, NO OLVIDE DESCARGAR SU CONTRATO." />
+					</b:column>
+					<b:column>
+						<h4>Datos Personales</h4>
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column span="2">
+						<strong>C&eacute;dula:</strong>
+					</b:column>
+					<b:column span="4">
+						<h:outputText value="#{reservaBean.estudiante.id.perDni}" />
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column span="2">
+						<strong>Nombre:</strong>
+					</b:column>
+					<b:column span="4">
+						<h:outputText value="#{reservaBean.estudiante.matNombre}" />
+					</b:column>
+					<b:column span="2">
+						<strong>Fecha de nacimiento:</strong>
+					</b:column>
+					<b:column span="4">
+						<h:outputText value="#{reservaBean.estudiante.matFechaNacimiento}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column span="2">
+						<strong>G&eacute;nero:</strong>
+					</b:column>
+					<b:column span="4">
+						<h:outputText value="#{reservaBean.estudiante.matGenero}" />
+					</b:column>
+					<b:column span="2">
+						<strong>Correo:</strong>
+					</b:column>
+					<b:column span="4">
+						<h:outputText
+							value="#{reservaBean.estudiante.matCorreo} ; #{reservaBean.estudiante.matCorreoIns}" />
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column>
+						<hr />
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<center>
+						<b:column>
+							<h:outputText value="Habitación Reservada:"
+								style="font-size: 18px;color: #317EAC;" />
+						&nbsp;&nbsp;<strong><h:outputText
+									value="#{reservaBean.sitioArrendado()}" /></strong>
+						</b:column>
+					</center>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column>
+						<hr />
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column>
+						<h4>Reservaci&oacute;n</h4>
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column col-lg="12" col-md="12" col-sm="12" col-xs="12">Selecci&oacute;n de vivienda:</b:column>
+					<b:column span="6">
+						<b:row>
+							<b:column span="12">
+								<h:selectOneMenu id="sitios" value="#{reservaBean.sitioId}"
+									styleClass="form-control">
+									<f:ajax event="change"
+										listener="#{reservaBean.seleccionSitio()}" execute="sitios"
+										render="capacidad libres estList costo" />
+									<f:selectItems value="#{reservaBean.sitiosLibres}" />
+								</h:selectOneMenu>
+							</b:column>
+						</b:row>
+						<b:row style="margin-top:10px;">
+						<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">
+								<strong>Capacidad:</strong>
+							</b:column>
+							<b:column col-lg="2" col-md="2" col-sm="2" col-xs="2">
+								<h:outputText id="capacidad"
+									value="#{reservaBean.sitio.sitCapacidad}" />
+							</b:column>
+							<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">
+								<strong>Libres:</strong>
+							</b:column>
+							<b:column col-lg="2" col-md="2" col-sm="2" col-xs="2">
+								<h:outputText id="libres"
+									value="#{reservaBean.sitio.sitLibres}" />
+							</b:column>
+							<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">
+								<strong>Costo:</strong>
+							</b:column>
+							<b:column col-lg="2" col-md="2" col-sm="2" col-xs="2">
+								<h:outputText id="costo"
+									value="#{reservaBean.sitio.sitValorArriendo} $" />
+							</b:column>
+							
+								
+						</b:row>
+					</b:column>
+					<b:column span="6">
+						<h:dataTable id="estList" styleClass="table table-striped"
+							value="#{reservaBean.reservasSitio}" var="est">
+							<h:column>
+								<f:facet name="header">Estudiantes Asignados</f:facet>
+								<h:outputText value="#{est.matNombre}" />
+							</h:column>
+						</h:dataTable>
+					</b:column>
+				</b:row>
+				<b:row rendered="#{!reservaBean.mayorEdad}">
+					<b:column>
+						<hr />
+					</b:column>
+				</b:row>
+				<b:row rendered="#{!reservaBean.mayorEdad}">
+					<b:column span="12">
+						<h4>Datos de representante (requerido)</h4>
+					</b:column>
+					<b:column span="12">
+						<h:outputText style="font-style: oblique;color:#2fa4e7;"
+							value="Al ser menor de edad necesitamos información de tu representante legal." />
+					</b:column>
+				</b:row>
+				<b:row rendered="#{!reservaBean.mayorEdad}" style="margin-top:10px;">
+					<b:column col-lg="1" col-md="1" col-sm="1" col-xs="2">
+						<strong>C&eacute;dula:</strong>
+					</b:column>
+					<b:column col-lg="3" col-md="3" col-sm="4" col-xs="10">
+						<b:inputText value="#{reservaBean.dniRepresentante}" />
+					</b:column>
+					<b:column col-lg="1" col-md="1" col-sm="1" col-xs="2">
+						<strong>Nombre:</strong>
+					</b:column>
+					<b:column col-lg="7" col-md="7" col-sm="6" col-xs="10">
+						<b:inputText value="#{reservaBean.nombreRepresentante}" />
+					</b:column>
+				</b:row>
+				<b:row rendered="#{reservaBean.tokenOk}">
+					<b:column col-lg="2" col-md="2" col-sm="3" col-xs="4"
+						styleClass="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-1">
+						<b:commandButton value="Reservar"
+							actionListener="#{reservaBean.reservarSitio()}" update="frmRes :frmRes:sitios"
+							look="primary" size="lg" />
+					</b:column>
+					<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">
+						<h:commandButton value="Contrato"
+							actionListener="#{reservaBean.generarContrato()}" ajax="false"
+							styleClass="btn btn-warning btn-lg"
+							disabled="#{!reservaBean.finalizado}">
+							<p:fileDownload value="#{reservaBean.archivo}" />
+						</h:commandButton>
+					</b:column>
+				</b:row>
+			</h:form>
+		</b:panel>
+		<p:dialog header="Verificación Estudiantil" widgetVar="dlgtoken"
+			width="360" modal="#{reservaBean.tokenOk}" resizable="false"
+			closable="false" position="top">
+			<h:form id="frmDlg">
+				<p:messages closable="true" id="msjs" />
+				<h:outputText style="font-style: oblique;color:#2fa4e7;"
+					value="Revise su correo institucional o personal, se le ha enviado una clave de acceso." />
+				<br />
+				<br />
+				<b:row>
+					<b:column col-xs="2">
+						<h:outputText value="Token:" />
+					</b:column>
+					<b:column col-xs="9">
+						<b:inputText value="#{reservaBean.token}" maxlength="8" />
+					</b:column>
+				</b:row>
+				<b:row style="margin-top:10px;">
+					<b:column col-xs="3" styleClass="col-xs-offset-1">
+						<p:commandButton value="Aceptar"
+							actionListener="#{reservaBean.validarToken()}"
+							update="frmDlg :frmUsr :frmRes" style="padding: .4em 0em;"
+							styleClass="btn-default" />
+					</b:column>
+					<b:column col-xs="3">
+						<p:commandButton value="Reenviar"
+							actionListener="#{reservaBean.reenviarToken()}" update="frmDlg"
+							style="padding: .4em 0em;" styleClass="btn-default" />
+					</b:column>
+					<b:column col-xs="3">
+						<p:button value="Cancelar" style="padding: .4em 0em;"
+							styleClass="btn-default" onclick="PF('dlgtoken').hide();" />
+					</b:column>
+				</b:row>
+			</h:form>
+		</p:dialog>
+	</b:container>
+</h:body>
+</html>

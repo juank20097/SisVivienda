@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Matriculados
+        </ui:define>
+	<ui:define name="contenido">
+		<h:form id="frm">
+			<center>
+				<h1>CARGA DE DATOS</h1>
+			</center>
+			<br/>
+				<b:column offset="3" span="2">
+					<h:outputLabel value="Periodo:*" />
+				</b:column>
+				<b:column span="4">
+					<h:selectOneMenu styleClass="form-control"
+						value="#{matriculadosBean.prdId}">
+						<p:ajax listener="#{matriculadosBean.verPeriodo}" update="frm"></p:ajax>
+						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
+						<f:selectItems value="#{matriculadosBean.listPeriodo}" />
+					</h:selectOneMenu>
+				</b:column>
+			<br />
+			<br />
+			<p:tabView dynamic="true" cache="true">
+				<p:tab title="Carga de Matriculados">
+					<center>
+					<br/>
+						<b:row>
+							<b:column span="6">
+								<p:fileUpload
+									fileUploadListener="#{matriculadosBean.handleFileUpload}"
+									mode="advanced" dragDropSupport="false" multiple="false"
+									sizeLimit="300000" allowTypes="/(\.|\/)(xls)$/" update="mensaje tbb"
+									cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar"
+									invalidFileMessage="Solo se aceptan archivos excel con extensión XLS" />
+							</b:column>
+							<b:column offset="2" span="3">
+								<p:commandLink ajax="false">
+									<p:fileDownload value="#{matriculadosBean.file}" />
+									<h:outputLabel value="Plantilla Ejemplo" />
+									<p:graphicImage width="30%" height="30%"
+										value="#{facesContex}/resources/img/excel.png"
+										styleClass="img-responsive" />
+								</p:commandLink>
+							</b:column>
+
+						</b:row>
+						<br />
+						<b:row>
+							
+						</b:row>
+					</center>
+					<br />
+					<p:messages id="mensaje" closable="true"></p:messages>
+					<b:panel title="Listado" look="primary" collapsible="false">
+						<p:dataTable id="tbb" value="#{matriculadosBean.matriculados}"
+							reflow="true" var="mat" rows="8" emptyMessage="Sin Datos"
+							paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column filterBy="#{mat.id.perDni}" filterMatchMode="contains"
+								headerText="CÉDULA" width="100">
+								<h:outputText value="#{mat.id.perDni}"></h:outputText>
+							</p:column>
+							<p:column headerText="NOMBRE COMPLETO" width="200">
+								<h:outputText value="#{mat.matNombre}"></h:outputText>
+							</p:column>
+							<p:column headerText="CORREO INSTITUCIONAL" width="100">
+								<h:outputText value="#{mat.matCorreoIns}"></h:outputText>
+							</p:column>
+							<p:column headerText="CORREO" width="100">
+								<h:outputText value="#{mat.matCorreo}"></h:outputText>
+							</p:column>
+							<p:column headerText="FECHA NACIMIENTO" width="100">
+								<h:outputText value="#{mat.matFechaNacimiento}">
+									<f:convertDateTime pattern="dd/MM/yy" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="CARRERA" width="100">
+								<h:outputText value="#{mat.matCarrera}"></h:outputText>
+							</p:column>
+							<p:column headerText="NIVEL" width="40">
+								<h:outputText value="#{mat.matNivel}" />
+							</p:column>
+							<p:column headerText="GENERO" width="60">
+								<h:outputText value="#{mat.matGenero}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+				</p:tab>
+				<p:tab title="Carga de Lista Negra">
+					<center>
+					<br/>
+						<b:row>
+							<b:column span="6">
+								<p:fileUpload
+									fileUploadListener="#{matriculadosBean.handleFileUpload2}"
+									mode="advanced" dragDropSupport="false" multiple="false"
+									sizeLimit="100000" allowTypes="/(\.|\/)(xls)$/" update=":frm"
+									cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar"
+									invalidFileMessage="Solo se aceptan archivos excel con extensión XLS" />
+							</b:column>
+							<b:column offset="2" span="3">
+								<p:commandLink ajax="false">
+									<p:fileDownload value="#{matriculadosBean.file2}" />
+									<h:outputLabel value="Plantilla Ejemplo" />
+									<p:graphicImage width="30%" height="30%"
+										value="#{facesContex}/resources/img/excel.png"
+										styleClass="img-responsive" />
+								</p:commandLink>
+							</b:column>
+
+						</b:row>
+						<br />
+						<b:row>
+							
+						</b:row>
+					</center>
+					<br />
+					<p:messages closable="true"></p:messages>
+					<b:panel title="Listado" look="primary" collapsible="false">
+						<p:dataTable id="tbb2" value="#{matriculadosBean.negados}"
+							reflow="true" var="neg" rows="8" emptyMessage="Sin Datos"
+							paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column filterBy="#{neg.id.perDni}" filterMatchMode="contains"
+								headerText="CÉDULA" width="100">
+								<h:outputText value="#{neg.id.perDni}"></h:outputText>
+							</p:column>
+							<p:column headerText="RAZON" width="400">
+								<h:outputText value="#{neg.negRazon}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+				</p:tab>
+			</p:tabView>
+			
+			<p:dialog header="Errores de contenido" widgetVar="dlgerr" width="500"
+			modal="true" resizable="false" closable="true" position="top">
+				<p:column headerText="Error">
+					<h:outputText value="#{matriculadosBean.e}" />
+				</p:column>
+				<b:row style="margin-top: 10px;">
+					<b:column span="2" offset="4">
+						<h:commandButton type="button" value="Aceptar"
+							onclick="PF('dlgerr').hide()" styleClass="btn btn-default">
+							<f:ajax />
+						</h:commandButton>
+					</b:column>
+				</b:row>
+		</p:dialog>
+
+
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+
+</html>

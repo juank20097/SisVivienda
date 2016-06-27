@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<title>Login</title>
+	<link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico" />
+	<h:outputStylesheet library="css" name="estilos.css" />
+</h:head> 
+<h:body styleClass="color"> 
+		<b:container>
+	       <div class="row topForm">
+	           <div class="col-sm-6 col-sm-offset-3 form-box">
+	           	<div class="form-top">
+	           		<div class="form-top-left">
+               			<h2>Ingreso al sistema</h2>
+                   		<p>Sistema de Viviendas</p>
+               		</div>
+               		<div class="form-top-right">
+               			<i class="fa fa-home"></i>
+               		</div>
+	             </div>
+	             <div class="form-bottom">
+		             <h:form id="frmlog">
+		             	<p:messages closable="true"/>
+		             	 <div class="form-group">
+		             		<b:inputText placeholder="USUARIO" value="#{sesionBean.usuario}">
+					            <f:facet name="prepend">
+					                <b:iconAwesome name="user"/>
+					            </f:facet>
+					        </b:inputText>
+		                 </div>
+		                 <div class="form-group">
+		                 	<b:inputSecret placeholder="CONTRASE&Ntilde;A" value="#{sesionBean.pass}">
+					            <f:facet name="prepend">
+					                <b:iconAwesome name="key"/>
+					            </f:facet>
+					        </b:inputSecret>
+		                 </div>
+		                 <b:commandButton value="Ingresar" iconAwesome="check-square-o" action="#{sesionBean.logIn()}"
+		                 	styleClass="btn-block btnSend" look="primary" update="frmlog"/>
+		             </h:form>
+	             </div>
+	           </div>
+	       </div>
+		</b:container>
+</h:body> 
+</html>

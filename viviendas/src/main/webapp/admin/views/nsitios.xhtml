@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Sitios
+        </ui:define>
+	<ui:define name="contenido">
+		<br />
+		<h:form id="frm">
+			<p:messages closable="true"></p:messages>
+			<b:panel title="Edición de Sitios" look="primary"
+				collapsible="false">
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Nombre del Sitio*" />
+					</b:column>
+					<b:column span="10">
+						<b:inputText value="#{sitiosBean.sitNombre}" disabled="true"></b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Periodo*" />
+					</b:column>
+					<b:column span="10">
+						<b:inputText value="#{sitiosBean.prdId}" disabled="true"></b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Capacidad*" />
+					</b:column>
+					<b:column span="10">
+						<b:inputText value="#{sitiosBean.sitCapacidad}" required="true"
+							requiredMessage="Capacidad Necesaria"></b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Genero*" />
+					</b:column>
+					<b:column span="10">
+						<b:selectOneMenu value="#{sitiosBean.sitGenero}">
+							<f:selectItems value="#{sitiosBean.listGenero}" />
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Valor Arriendo*" />
+					</b:column>
+					<b:column span="10">
+						<b:inputText value="#{sitiosBean.sitValorArriendo}"
+							required="true" requiredMessage="Valor Arriendo Necesario"></b:inputText>
+					</b:column>
+				</b:row>
+				<br />
+				<b:commandButton value="Guardar" action="#{sitiosBean.editarSitio}"
+					update="frm" look="info"></b:commandButton>&nbsp;&nbsp;&nbsp;
+					<b:commandButton value="Cancelar" action="#{sitiosBean.salir}"
+					immediate="true" update="frm" look="info"></b:commandButton>
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

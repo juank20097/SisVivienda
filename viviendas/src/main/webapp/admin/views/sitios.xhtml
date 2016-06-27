@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Asignación
+        </ui:define>
+	<ui:define name="contenido">
+		<h:form id="frm">
+			<center>
+				<h1>ASIGNACIÓN SITIOS</h1>
+			</center>
+			<br />
+			<center>
+				<b:row>
+					<b:column offset="2" span="2">
+						<h:outputLabel value="Periodo:*" />
+					</b:column>
+					<b:column span="6">
+						<h:selectOneMenu styleClass="form-control"
+							value="#{sitiosBean.prdId}">
+							<p:ajax listener="#{sitiosBean.validarYCarga()}" update="frm"></p:ajax>
+							<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
+							<f:selectItems value="#{sitiosBean.listPeriodo}" />
+						</h:selectOneMenu>
+					</b:column>
+				</b:row>
+			</center>
+			<br />
+			<b:row>
+				<b:column offset="1" span="1">
+					<h:outputLabel value="Area:*" />
+				</b:column>
+				<b:column span="4">
+					<h:selectOneMenu styleClass="form-control"
+						value="#{sitiosBean.areId}">
+						<p:ajax listener="#{sitiosBean.cargarSitios()}" update="frm"></p:ajax>
+						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
+						<f:selectItems value="#{sitiosBean.listAreas}" />
+					</h:selectOneMenu>
+				</b:column>
+				<b:column span="1">
+					<h:outputLabel value="Genero:*" />
+				</b:column>
+				<b:column span="4">
+					<b:selectOneMenu value="#{sitiosBean.sitGenero}">
+						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
+						<f:selectItems value="#{sitiosBean.listGenero}" />
+					</b:selectOneMenu>
+				</b:column>
+			</b:row>
+			<br />
+			<center>
+				<b:row>
+					<b:column>
+						<h:outputLabel value="Sitios:" />
+					</b:column>
+					<b:column>
+						<p:selectManyMenu value="#{sitiosBean.lsitios}">
+							<f:selectItems value="#{sitiosBean.listSitios}" />
+						</p:selectManyMenu>
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column>
+						<b:commandButton value="Insertar"
+							action="#{sitiosBean.insertarSitios}" update="frm" look="info"></b:commandButton>
+					</b:column>
+				</b:row>
+			</center>
+			<br />
+			<p:messages closable="true"></p:messages>
+			<b:panel title="Listado" look="primary" collapsible="false">
+				<p:dataTable id="tbb" value="#{sitiosBean.lsitper}" reflow="true"
+					var="sit" rows="8" emptyMessage="Sin Datos" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="OPCIONES" width="100">
+						<p:commandButton icon="ui-icon-pencil"
+							action="#{sitiosBean.cargarSitio(sit)}" />
+						<p:commandButton icon="ui-icon-trash"
+							action="#{sitiosBean.eliminar(sit)}" update="frm">
+							<p:confirm header="Confirmación"
+								message="Seguro quieres Eliminar el Sitio?" icon="ui-icon-alert" />
+						</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+
+
+
+					<p:column filterBy="#{sit.sitNombre}" filterMatchMode="contains"
+						headerText="SITIO" width="200">
+						<h:outputText value="#{sit.sitNombre}"></h:outputText>
+					</p:column>
+					<p:column headerText="CAPACIDAD" width="100">
+						<h:outputText value="#{sit.sitCapacidad}"></h:outputText>
+					</p:column>
+					<p:column headerText="VALOR ARRIENDO" width="110">
+						<h:outputText value="#{sit.sitValorArriendo}">
+							<f:convertNumber type="currency" currencySymbol="$" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="PERIODO" width="200">
+						<h:outputText value="#{sit.id.prdId}" />
+					</p:column>
+					<p:column headerText="GENERO" width="100">
+						<h:outputText value="#{sit.sitGenero}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

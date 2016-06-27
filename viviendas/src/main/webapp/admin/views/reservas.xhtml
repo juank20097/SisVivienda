@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Reservas
+        </ui:define>
+	<ui:define name="contenido">
+		<h:form id="frm">
+			<center>
+				<h1>CONTROL RESERVAS</h1>
+			</center>
+			<b:row>
+				<b:column offset="2" span="2">
+					<h:outputLabel value="Periodo:*" />
+				</b:column>
+				<b:column span="6">
+					<h:selectOneMenu styleClass="form-control"
+						value="#{matriculadosBean.prdId}">
+						<p:ajax listener="#{matriculadosBean.validarYCarga()}"
+							update="frm"></p:ajax>
+						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
+						<f:selectItems value="#{matriculadosBean.listPeriodoAll}" />
+					</h:selectOneMenu>
+				</b:column>
+			</b:row>
+			<br />
+			<p:messages closable="true"></p:messages>
+			<b:panel title="Listado" look="primary" collapsible="false">
+				<b:dataTable value="#{matriculadosBean.listReserva}" var="res"
+					styleClass="table table-striped table-bordered dt-responsive nowrap"
+					fixedHeader="true" responsive="true" lang="es" style="width:100%">
+					<h:column width="100">
+						<f:facet name="header">
+							<h:outputText value="OPCIONES" />
+						</f:facet>
+						<p:commandButton icon="ui-icon-trash"
+							action="#{matriculadosBean.eliminarR(res)}" update="frm">
+							<p:confirm header="Confirmación"
+								message="Seguro quieres Eliminar la Reserva?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton icon="ui-icon-circle-check"
+							disabled="#{matriculadosBean.estado(res.resEstado)}"
+							action="#{matriculadosBean.finalizar(res)}" update="frm">
+							<p:confirm header="Confirmación"
+								message="Seguro quieres Finalizar la Reserva?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="CÉDULA" />
+						</f:facet>
+						<h:outputText value="#{res.perDni}"></h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="USUARIO" />
+						</f:facet>
+						<h:outputText value="#{matriculadosBean.nombre(res.perDni)}"></h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="PERIODO" />
+						</f:facet>
+						<h:outputText value="#{res.arrSitioPeriodo.id.prdId}"></h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="SITIO" />
+						</f:facet>
+						<h:outputText value="#{sitiosBean.SitioNomByID(res)}"></h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="CONTRATO" />
+						</f:facet>
+						<p:commandButton value="Descargar" actionListener="#{matriculadosBean.setearContrato(res.perDni)}" ajax="false">
+							<p:fileDownload value="#{matriculadosBean.file3}" />
+						</p:commandButton>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="ESTADO" />
+						</f:facet>
+						<h:outputText value="#{matriculadosBean.estadosX(res.resEstado)}"></h:outputText>
+					</h:column>
+				</b:dataTable>
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,97 @@
+drop table ARR_MATRICULADOS;
+
+drop table ARR_NEGADOS;
+
+drop table ARR_PERIODO;
+
+drop table ARR_RESERVA;
+
+drop table ARR_SITIO_PERIODO;
+
+/*==============================================================*/
+/* Table: ARR_MATRICULADOS                                      */
+/*==============================================================*/
+create table ARR_MATRICULADOS (
+   PER_DNI              VARCHAR(20)          not null,
+   PRD_ID               VARCHAR(20)          not null,
+   MAT_NOMBRE           VARCHAR(300)		 null,
+   MAT_FECHA_NACIMIENTO DATE                 null,
+   MAT_NIVEL            VARCHAR(150)         null,
+   MAT_CARRERA          VARCHAR(150)         null,
+   MAT_CORREO           VARCHAR(150)         null,
+   MAT_CORREO_INS       VARCHAR(150)         null,
+   MAT_GENERO           CHAR(1)              null,
+   MAT_REPRES_DNI       VARCHAR(20)          null,
+   MAT_REPRES_NOMBRE    VARCHAR(300)         null,
+   MAT_TOKEN            VARCHAR(10)          null,
+   constraint PK_ARR_MATRICULADOS primary key (PER_DNI, PRD_ID)
+);
+
+/*==============================================================*/
+/* Table: ARR_NEGADOS                                           */
+/*==============================================================*/
+create table ARR_NEGADOS (
+   PER_DNI              VARCHAR(20)          not null,
+   PRD_ID               VARCHAR(20)          not null,
+   NEG_RAZON            TEXT                 null,
+   constraint PK_ARR_NEGADOS primary key (PER_DNI, PRD_ID)
+);
+
+/*==============================================================*/
+/* Table: ARR_PERIODO                                           */
+/*==============================================================*/
+create table ARR_PERIODO (
+   PRD_ID               VARCHAR(50)          not null,
+   PRD_DESCRIPCION      TEXT                 null,
+   PRD_FECHA_INICIO     DATE                 null,
+   PRD_FECHA_FIN        DATE                 null,
+   PRD_ESTADO           CHAR(1)              null,
+   constraint PK_ARR_PERIODO primary key (PRD_ID)
+);
+
+/*==============================================================*/
+/* Table: ARR_RESERVA                                           */
+/*==============================================================*/
+create table ARR_RESERVA (
+   RES_ID               VARCHAR(40)          not null,
+   PER_DNI              VARCHAR(20)          null,
+   PRD_ID               VARCHAR(20)          null,
+   ART_ID               INT4                 null,
+   RES_FECHA_HORA_CREACION TIMESTAMP            null,
+   RES_FECHA_CREACION   DATE                 null,
+   RES_FECHA_HORA_FINALIZACION TIMESTAMP            null,
+   RES_FECHA_FINALIZACION DATE                 null,
+   RES_USUARIO          VARCHAR(30)          null,
+   RES_CONTRATO         TEXT                 null,
+   RES_ESTADO           CHAR(1)              null,
+   constraint PK_ARR_RESERVA primary key (RES_ID)
+);
+
+/*==============================================================*/
+/* Table: ARR_SITIO_PERIODO                                     */
+/*==============================================================*/
+create table ARR_SITIO_PERIODO (
+   ART_ID               INT4                 not null,
+   PRD_ID               VARCHAR(20)          not null,
+   SIT_NOMBRE           VARCHAR(100)         null,
+   SIT_CAPACIDAD        INT4                 null,
+   SIT_LIBRES           INT4                 null,
+   SIT_VALOR_ARRIENDO   NUMERIC              null,
+   SIT_GENERO           CHAR(1)              null,
+   constraint PK_ARR_SITIO_PERIODO primary key (PRD_ID, ART_ID)
+);
+
+alter table ARR_MATRICULADOS
+   add constraint FK_ARR_MATR_REFERENCE_ARR_PERI foreign key (PRD_ID)
+      references ARR_PERIODO (PRD_ID)
+      on delete restrict on update restrict;
+
+alter table ARR_RESERVA
+   add constraint FK_ARR_RESE_REFERENCE_ARR_SITI foreign key (PRD_ID, ART_ID)
+      references ARR_SITIO_PERIODO (PRD_ID, ART_ID)
+      on delete restrict on update restrict;
+
+alter table ARR_SITIO_PERIODO
+   add constraint FK_ARR_SITI_REFERENCE_ARR_PERI foreign key (PRD_ID)
+      references ARR_PERIODO (PRD_ID)
+      on delete restrict on update restrict;
