@@ -46,7 +46,7 @@ and open the template in the editor.
 			<p:confirmDialog header="Confirmación"
 				message="Está seguro de salir del sistema?" closable="false"
 				showEffect="fade" hideEffect="explode" widgetVar="cs">
-				<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{sesionBean.logOut()}"
 					oncomplete="PF('cs').hide();" />
 				<p:commandButton value="No" type="button"

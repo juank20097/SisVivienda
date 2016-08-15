@@ -87,7 +87,7 @@
 						<strong>G&eacute;nero:</strong>
 					</b:column>
 					<b:column span="4">
-						<h:outputText value="#{reservaBean.estudiante.matGenero}" />
+						<h:outputText value="#{reservaBean.cambiarGenero(reservaBean.estudiante.matGenero)}" />
 					</b:column>
 					<b:column span="2">
 						<strong>Correo:</strong>
@@ -127,7 +127,7 @@
 					<b:column span="6">
 						<b:row>
 							<b:column span="12">
-								<h:selectOneMenu id="sitios" value="#{reservaBean.sitioId}"
+								<h:selectOneMenu disabled="#{reservaBean.reservar}" id="sitios" value="#{reservaBean.sitioId}"
 									styleClass="form-control">
 									<f:ajax event="change"
 										listener="#{reservaBean.seleccionSitio()}" execute="sitios"
@@ -149,7 +149,7 @@
 							</b:column>
 							<b:column col-lg="2" col-md="2" col-sm="2" col-xs="2">
 								<h:outputText id="libres"
-									value="#{reservaBean.sitio.sitLibres}" />
+									value="#{reservaBean.libres}" />
 							</b:column>
 							<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">
 								<strong>Costo:</strong>
@@ -203,8 +203,8 @@
 				<b:row rendered="#{reservaBean.tokenOk}">
 					<b:column col-lg="2" col-md="2" col-sm="3" col-xs="4"
 						styleClass="col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-1">
-						<b:commandButton value="Reservar"
-							actionListener="#{reservaBean.reservarSitio()}" update="frmRes :frmRes:sitios"
+						<b:commandButton value="Reservar" disabled="#{reservaBean.reservar}"
+							actionListener="#{reservaBean.reservarSitio()}" update="frmRes frmRes:libres :frmRes:sitios"
 							look="primary" size="lg" />
 					</b:column>
 					<b:column col-lg="2" col-md="2" col-sm="3" col-xs="3">

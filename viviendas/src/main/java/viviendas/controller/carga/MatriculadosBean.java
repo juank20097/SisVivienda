@@ -11,7 +11,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.ServletContext;
@@ -38,7 +38,7 @@ import viviendas.model.manager.ManagerCarga;
  * @author jestevez
  * 
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean
 public class MatriculadosBean {
 

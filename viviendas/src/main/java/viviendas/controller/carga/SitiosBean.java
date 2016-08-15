@@ -7,7 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
 import viviendas.model.conn.entities.GEN_Areas;
@@ -23,7 +23,7 @@ import viviendas.model.manager.ManagerCarga;
  * @author jestevez
  * 
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean
 public class SitiosBean {
 

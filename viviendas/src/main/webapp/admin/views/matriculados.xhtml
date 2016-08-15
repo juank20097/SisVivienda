@@ -15,39 +15,40 @@
 			<center>
 				<h1>CARGA DE DATOS</h1>
 			</center>
-			<br/>
-				<b:column offset="3" span="2">
-					<h:outputLabel value="Periodo:*" />
-				</b:column>
-				<b:column span="4">
-					<h:selectOneMenu styleClass="form-control"
-						value="#{matriculadosBean.prdId}">
-						<p:ajax listener="#{matriculadosBean.verPeriodo}" update="frm"></p:ajax>
-						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
-						<f:selectItems value="#{matriculadosBean.listPeriodo}" />
-					</h:selectOneMenu>
-				</b:column>
+			<br />
+			<b:column offset="3" span="2">
+				<h:outputLabel value="Periodo:*" />
+			</b:column>
+			<b:column id="col" span="4">
+				<h:selectOneMenu id="per" styleClass="form-control"
+					value="#{matriculadosBean.prdId}">
+					<p:ajax listener="#{matriculadosBean.verPeriodo}" update="frm"></p:ajax>
+					<f:selectItem itemLabel="--Seleccione--"></f:selectItem>
+					<f:selectItems value="#{matriculadosBean.listPeriodo}" />
+				</h:selectOneMenu>
+			</b:column>
 			<br />
 			<br />
 			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Carga de Matriculados">
 					<center>
-					<br/>
+						<br />
 						<b:row>
 							<b:column span="6">
 								<p:fileUpload
 									fileUploadListener="#{matriculadosBean.handleFileUpload}"
 									mode="advanced" dragDropSupport="false" multiple="false"
-									sizeLimit="300000" allowTypes="/(\.|\/)(xls)$/" update="mensaje tbb"
-									cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar"
+									sizeLimit="300000" allowTypes="/(\.|\/)(xls)$/"
+									update="mensaje tbb" cancelLabel="Cancelar" uploadLabel="Subir"
+									label="Seleccionar"
 									invalidFileMessage="Solo se aceptan archivos excel con extensión XLS" />
 							</b:column>
 							<b:column offset="2" span="3">
 								<p:commandLink ajax="false">
 									<p:fileDownload value="#{matriculadosBean.file}" />
-									<h:outputLabel value="Plantilla Ejemplo" />
-									<p:graphicImage width="30%" height="30%"
-										value="#{facesContex}/resources/img/excel.png"
+									<h:outputLabel value="Plantilla Matriculados" />
+									<p:graphicImage width="20%" height="20%"
+										value="#{facesContex}/resources/img/xls.png"
 										styleClass="img-responsive" />
 								</p:commandLink>
 							</b:column>
@@ -55,7 +56,7 @@
 						</b:row>
 						<br />
 						<b:row>
-							
+
 						</b:row>
 					</center>
 					<br />
@@ -80,7 +81,7 @@
 							</p:column>
 							<p:column headerText="FECHA NACIMIENTO" width="100">
 								<h:outputText value="#{mat.matFechaNacimiento}">
-									<f:convertDateTime pattern="dd/MM/yy" />
+									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="CARRERA" width="100">
@@ -97,7 +98,7 @@
 				</p:tab>
 				<p:tab title="Carga de Lista Negra">
 					<center>
-					<br/>
+						<br />
 						<b:row>
 							<b:column span="6">
 								<p:fileUpload
@@ -110,9 +111,9 @@
 							<b:column offset="2" span="3">
 								<p:commandLink ajax="false">
 									<p:fileDownload value="#{matriculadosBean.file2}" />
-									<h:outputLabel value="Plantilla Ejemplo" />
-									<p:graphicImage width="30%" height="30%"
-										value="#{facesContex}/resources/img/excel.png"
+									<h:outputLabel value="Plantilla Lista Negra" />
+									<p:graphicImage width="20%" height="20%"
+										value="#{facesContex}/resources/img/xls.png"
 										styleClass="img-responsive" />
 								</p:commandLink>
 							</b:column>
@@ -120,7 +121,7 @@
 						</b:row>
 						<br />
 						<b:row>
-							
+
 						</b:row>
 					</center>
 					<br />
@@ -138,12 +139,23 @@
 								<h:outputText value="#{neg.negRazon}"></h:outputText>
 							</p:column>
 						</p:dataTable>
+						<br/>
+						<center>
+						<h:commandLink>
+							<p:dataExporter type="xls" target="tbb2"
+								fileName="Reporte_Lista_Negra" pageOnly="true" />
+							<p:graphicImage width="4%" height="4%" value="#{facesContex}/resources/img/xls.png"
+								styleClass="img-responsive" />
+							<b:label text="Descargar Datos"></b:label>
+						</h:commandLink>
+						</center>
 					</b:panel>
 				</p:tab>
 			</p:tabView>
-			
-			<p:dialog header="Errores de contenido" widgetVar="dlgerr" width="500"
-			modal="true" resizable="false" closable="true" position="top">
+
+			<p:dialog header="Errores de contenido" widgetVar="dlgerr"
+				width="500" modal="true" resizable="false" closable="true"
+				position="top">
 				<p:column headerText="Error">
 					<h:outputText value="#{matriculadosBean.e}" />
 				</p:column>
@@ -155,11 +167,11 @@
 						</h:commandButton>
 					</b:column>
 				</b:row>
-		</p:dialog>
+			</p:dialog>
 
 
 		</h:form>
-		
+
 	</ui:define>
 </ui:composition>
 
