@@ -3,10 +3,14 @@ package viviendas.controller.reserve;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -394,13 +398,13 @@ public class ReservaBean implements Serializable {
 	 */
 	private void ingresarReserva() throws Exception {
 		if (mngRes.existeReservaPeriodo(getSitio().getId())) {
-			if (mayorEdad){
+			if (mayorEdad) {
 				mngRes.crearReserva(getEstudiante(), getSitio(), periodo.getPrdId(), null);
-				libres=mngRes.traerLibres(getSitio().getId().getArtId());
-			}else{
+				libres = mngRes.traerLibres(getSitio().getId().getArtId());
+			} else {
 				mngRes.crearReserva(getEstudiante(), getSitio(), periodo.getPrdId(),
 						getDniRepresentante() + ";" + getNombreRepresentante());
-				libres=mngRes.traerLibres(getSitio().getId().getArtId());
+				libres = mngRes.traerLibres(getSitio().getId().getArtId());
 			}
 			Mensaje.crearMensajeINFO("Reserva realizada correctamente, no olvide descargar su contrato.");
 		} else {
@@ -413,14 +417,14 @@ public class ReservaBean implements Serializable {
 	 */
 	private void modificarReserva() throws Exception {
 		if (mngRes.existeReservaPeriodo(getSitio().getId())) {
-			if (mayorEdad){
+			if (mayorEdad) {
 				mngRes.modificarReserva(getEstudiante(), periodo.getPrdId(), getSitio(), null);
-				libres=mngRes.traerLibres(getSitio().getId().getArtId());
-			}else{
+				libres = mngRes.traerLibres(getSitio().getId().getArtId());
+			} else {
 				mngRes.modificarReserva(getEstudiante(), periodo.getPrdId(), getSitio(),
 						getDniRepresentante() + ";" + getNombreRepresentante());
-				libres=mngRes.traerLibres(getSitio().getId().getArtId());
-				}
+				libres = mngRes.traerLibres(getSitio().getId().getArtId());
+			}
 			Mensaje.crearMensajeINFO("Reserva realizada correctamente, no olvide descargar su contrato.");
 		} else {
 			Mensaje.crearMensajeWARN("El sitio seleccionado ya esta copado, favor eliga otro.");
@@ -461,7 +465,7 @@ public class ReservaBean implements Serializable {
 		if (sitioId != null) {
 			sitio = hashSitios.get(sitioId);
 			cargarEstudiantesSitio();
-			libres=mngRes.traerLibres(getSitio().getId().getArtId());
+			libres = mngRes.traerLibres(getSitio().getId().getArtId());
 			System.out.println(libres);
 		}
 	}
@@ -486,11 +490,14 @@ public class ReservaBean implements Serializable {
 	 */
 	public void generarContrato() {
 		try {
-			String nombre = Contrato.generarContrato(estudiante, periodo, sitio.getSitNombre());
+			String nombre = Contrato.generarContrato(estudiante, periodo, reserva.getArrSitioPeriodo().getSitNombre());
+			nombre="Contrato_"+estudiante.getId().getPerDni()+".zip";
+			this.zip(estudiante.getId().getPerDni(),periodo.getPrdId());
 			setArchivo(new DefaultStreamedContent(new FileInputStream(new File(Funciones.ruta_pdf + nombre)),
-					"application/pdf", nombre));
+					"application/zip", nombre));
 			// MODIFICAR NOMBRE CONTRATO
 			mngRes.agregarContratoReserva(estudiante, periodo.getPrdId());
+			
 		} catch (FileNotFoundException e) {
 			try {
 				setArchivo(new DefaultStreamedContent(new FileInputStream(new File(Funciones.ruta_pdf + "error.pdf")),
@@ -512,14 +519,69 @@ public class ReservaBean implements Serializable {
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR("Error: " + e.getMessage());
 		}
+		
 	}
 
+	/**
+	 * Método para cambiar el género
+	 * 
+	 * @param genero
+	 * @return
+	 */
 	public String cambiarGenero(String genero) {
 		if (genero.equals("M")) {
 			return "Masculino";
 		} else {
 			return "Femenino";
 		}
+	}
+
+	public void zip(String per_dni, String periodo) throws IOException {
+		ZipOutputStream os = new ZipOutputStream(new FileOutputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//Contrato_"+per_dni+".zip"));
+		
+		//Ingreso de un Archivo
+		ZipEntry entrada = new ZipEntry("Contrato.pdf");
+		os.putNextEntry(entrada);
+		
+		FileInputStream fis = new FileInputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//"+periodo+"_"+per_dni+".pdf");
+		byte [] buffer = new byte[1024];
+		int leido=0;
+		while (0 < (leido=fis.read(buffer))){
+		   os.write(buffer,0,leido);
+		}
+		
+		fis.close();
+		os.closeEntry();
+		
+		//Ingreso de un Archivo
+		ZipEntry entrada2 = new ZipEntry("Código de Ética.docx");
+		os.putNextEntry(entrada2);
+		
+		FileInputStream fis2 = new FileInputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//código_ética.docx");
+		byte [] buffer2 = new byte[1024];
+		int leido2=0;
+		while (0 < (leido2=fis2.read(buffer2))){
+		   os.write(buffer2,0,leido2);
+		}
+		
+		fis2.close();
+		os.closeEntry();
+		
+		//Ingreso de un Archivo
+		ZipEntry entrada3 = new ZipEntry("Manual de Uso de Espacios.docx");
+		os.putNextEntry(entrada3);
+		
+		FileInputStream fis3 = new FileInputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//manual_uso_espacios.docx");
+		byte [] buffer3 = new byte[1024];
+		int leido3=0;
+		while (0 < (leido3=fis3.read(buffer3))){
+		   os.write(buffer3,0,leido3);
+		}
+		
+		fis3.close();
+		os.closeEntry();
+		
+		os.close();
 	}
 
 }

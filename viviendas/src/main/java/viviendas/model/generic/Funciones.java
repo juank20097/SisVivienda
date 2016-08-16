@@ -40,7 +40,7 @@ public class Funciones {
 		
 	public static String hostWS = "http://10.1.0.158:8080/sgupy/";
 	
-	public static String ruta_pdf= "C:\\Users\\jestevez\\Desktop\\Sistemas\\Application Server\\wildfly-8.2.0.Final\\standalone\\img\\viviendas\\contratos\\";
+	public static String ruta_pdf= "C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//";
 	
 	public static Boolean validacionCedula(String cedula){
         //verifica que los dos primeros dígitos correspondan a un valor entre 1 y NUMERO_DE_PROVINCIAS
