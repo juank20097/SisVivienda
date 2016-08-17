@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Matriculados
+        </ui:define>
+	<ui:define name="contenido">
+		<h:form id="frm">
+			<center>
+				<h1>CARGA DE ESTUDIANTES-SITIOS</h1>
+			</center>
+			<br />
+			<b:column offset="3" span="2">
+				<h:outputLabel value="Periodo:*" />
+			</b:column>
+			<b:column id="col" span="4">
+				<h:selectOneMenu id="per" styleClass="form-control"
+					value="#{estudianteSitioBean.prdId}">
+					<p:ajax listener="#{estudianteSitioBean.verPeriodo}" update="frm"></p:ajax>
+					<f:selectItem itemLabel="--Seleccione--"></f:selectItem>
+					<f:selectItems value="#{estudianteSitioBean.listPeriodo}" />
+				</h:selectOneMenu>
+			</b:column>
+			<br />
+			<br />
+					<center>
+						<br />
+						<b:row>
+							<b:column span="6">
+								<p:fileUpload
+									fileUploadListener="#{estudianteSitioBean.handleFileUpload}"
+									mode="advanced" dragDropSupport="false" multiple="false"
+									sizeLimit="300000" allowTypes="/(\.|\/)(xls)$/"
+									update="dialog mensaje tbb" cancelLabel="Cancelar" uploadLabel="Subir"
+									label="Seleccionar"
+									invalidFileMessage="Solo se aceptan archivos excel con extensión XLS" />
+							</b:column>
+							<b:column offset="2" span="3">
+							
+								<p:commandLink ajax="false">
+									<p:fileDownload value="#{matriculadosBean.descargarArchivoEjemplo()}" />
+									<h:outputLabel value="Plantilla Estudiantes Sitios" />
+									<p:graphicImage width="20%" height="20%"
+										value="#{facesContex}/resources/img/xls.png"
+										styleClass="img-responsive" />
+								</p:commandLink>
+							</b:column>
+
+						</b:row>
+						<br />
+						<b:row>
+
+						</b:row>
+					</center>
+					<br />
+					<p:messages id="mensaje" closable="true"></p:messages>
+					<b:panel title="Listado" look="primary" collapsible="false">
+						<p:dataTable id="tbb" value="#{estudianteSitioBean.l_estudiantes}"
+							reflow="true" var="est" rows="8" emptyMessage="Sin Datos"
+							paginator="true"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column
+								headerText="CÉDULA" width="100">
+								<h:outputText value="#{est.perDni}"></h:outputText>
+							</p:column>
+							<p:column headerText="SITIO" width="200">
+								<h:outputText value="#{est.arrSitioPeriodo.sitNombre}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+
+			<p:dialog id="dialog" style="padding-top:50px;"
+						header="Errores de contenido" widgetVar="dlgerr" width="500"
+						modal="true" resizable="false" closable="true" position="top">
+						<p:column headerText="Error">
+							<h:outputText value="#{estudianteSitioBean.errores}" />
+						</p:column>
+						<b:row style="margin-top: 100px;">
+							<b:column span="2" offset="4">
+								<h:commandButton type="button" value="Aceptar"
+									onclick="PF('dlgerr').hide()" styleClass="btn btn-default">
+									<f:ajax />
+								</h:commandButton>
+							</b:column>
+						</b:row>
+					</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

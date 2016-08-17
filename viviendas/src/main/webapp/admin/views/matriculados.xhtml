@@ -39,13 +39,14 @@
 									fileUploadListener="#{matriculadosBean.handleFileUpload}"
 									mode="advanced" dragDropSupport="false" multiple="false"
 									sizeLimit="300000" allowTypes="/(\.|\/)(xls)$/"
-									update="mensaje tbb" cancelLabel="Cancelar" uploadLabel="Subir"
+									update="dialog mensaje tbb" cancelLabel="Cancelar" uploadLabel="Subir"
 									label="Seleccionar"
 									invalidFileMessage="Solo se aceptan archivos excel con extensión XLS" />
 							</b:column>
 							<b:column offset="2" span="3">
+							
 								<p:commandLink ajax="false">
-									<p:fileDownload value="#{matriculadosBean.file}" />
+									<p:fileDownload value="#{matriculadosBean.descargarArchivoEjemplo()}" />
 									<h:outputLabel value="Plantilla Matriculados" />
 									<p:graphicImage width="20%" height="20%"
 										value="#{facesContex}/resources/img/xls.png"
@@ -110,7 +111,7 @@
 							</b:column>
 							<b:column offset="2" span="3">
 								<p:commandLink ajax="false">
-									<p:fileDownload value="#{matriculadosBean.file2}" />
+									<p:fileDownload value="#{matriculadosBean.descargarArchivoEjemplo2()}" />
 									<h:outputLabel value="Plantilla Lista Negra" />
 									<p:graphicImage width="20%" height="20%"
 										value="#{facesContex}/resources/img/xls.png"
@@ -153,7 +154,7 @@
 				</p:tab>
 			</p:tabView>
 
-			<p:dialog header="Errores de contenido" widgetVar="dlgerr"
+			<p:dialog id="dialog" header="Errores de contenido" widgetVar="dlgerr"
 				width="500" modal="true" resizable="false" closable="true"
 				position="top">
 				<p:column headerText="Error">

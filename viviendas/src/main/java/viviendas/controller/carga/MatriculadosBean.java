@@ -86,19 +86,9 @@ public class MatriculadosBean {
 		errores = new ArrayList<String>();
 		negados = new ArrayList<ArrNegado>();
 		reservas = new ArrayList<ArrReserva>();
-		InputStream stream = ((ServletContext) FacesContext
-				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/resources/excel/excelbase.xls");
-		InputStream stream2 = ((ServletContext) FacesContext
-				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/resources/excel/excelbase2.xls");
 		InputStream stream3 = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/contratos/error.pdf");
-		file = new DefaultStreamedContent(stream, "texto/xls",
-				"archivo_Ejemplo_Matriculados.xls");
-		file2 = new DefaultStreamedContent(stream2, "texto/xls",
-				"archivo_Ejemplo_Negados.xls");
 		file3 = new DefaultStreamedContent(stream3, "application/pdf",
 				"error.pdf");
 	}
@@ -709,6 +699,28 @@ public class MatriculadosBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Método para descargar los archivos de ejemplo
+	 */
+	public void descargarArchivoEjemplo() {
+		ServletContext servletContext = (ServletContext) FacesContext
+				.getCurrentInstance().getExternalContext().getContext();
+		String contextPath = servletContext.getRealPath(File.separator
+				+ "resources/excel/Ejemplo_Base_Matriculados.xls");
+		Funciones.descargarExcel(contextPath);
+	}
+	
+	/**
+	 * Método para descargar los archivos de ejemplo
+	 */
+	public void descargarArchivoEjemplo2() {
+		ServletContext servletContext = (ServletContext) FacesContext
+				.getCurrentInstance().getExternalContext().getContext();
+		String contextPath = servletContext.getRealPath(File.separator
+				+ "resources/excel/Ejemplo_Base_Lista_Negra.xls");
+		Funciones.descargarExcel(contextPath);
 	}
 
 }

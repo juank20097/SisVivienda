@@ -1,5 +1,9 @@
 package viviendas.model.generic;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,6 +16,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 public class Funciones {
 	
@@ -301,5 +309,52 @@ public class Funciones {
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * Método para descargar archivos excel
+	 * 
+	 * @param url
+	 */
+	public static void descargarExcel(String url) {
+		System.out.println(url);
+		File ficheroXLS = new File(url);
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(ficheroXLS);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		byte[] bytes = new byte[1000];
+		int read = 0;
+
+		if (!ctx.getResponseComplete()) {
+			String fileName = ficheroXLS.getName();
+			String contentType = "application/vnd.ms-excel";
+			// String contentType = "application/pdf";
+			HttpServletResponse response = (HttpServletResponse) ctx
+					.getExternalContext().getResponse();
+			response.setContentType(contentType);
+			response.setHeader("Content-Disposition", "attachment;filename=\""
+					+ fileName + "\"");
+			ServletOutputStream out = null;
+			try {
+				out = response.getOutputStream();
+				while ((read = fis.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println("Descargado....!!!");
+			ctx.responseComplete();
+		}
 	}
 }
