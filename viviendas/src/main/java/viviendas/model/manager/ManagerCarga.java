@@ -18,6 +18,7 @@ import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrMatriculadoPK;
 import viviendas.model.dao.entities.ArrNegado;
 import viviendas.model.dao.entities.ArrNegadoPK;
+import viviendas.model.dao.entities.ArrParametro;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
@@ -510,7 +511,7 @@ public class ManagerCarga {
 	 * @param column
 	 * @return String
 	 */
-	public String validarFilaExcel3(Cell[] column) {
+	public String validarFilaExcel3(Cell[] column,String prd) {
 		String errores = "";
 		// validar cedula
 		if (column[SP_CEDULA].getContents() == null || column[SP_CEDULA].getContents().trim().isEmpty()) {
@@ -530,10 +531,10 @@ public class ManagerCarga {
 		// validar sitio
 		if (column[SP_SITIO].getContents() == null || column[SP_SITIO].getContents().trim().isEmpty()) {
 			errores += " SITIO vacío, ";
-		} else if (verificarSitio(column[SP_SITIO].getContents().trim()) == false){
+		} else if (verificarSitio(column[SP_SITIO].getContents().trim(),prd) == false){
 					errores += " SITIO no encontrado para Reserva, ";
 		}else{
-			ArrSitioPeriodo sp=obtenerSitio(column[SP_SITIO].getContents().trim());
+			ArrSitioPeriodo sp=obtenerSitio(column[SP_SITIO].getContents().trim(),prd);
 			if(sp.getSitLibres()<=0){
 				errores += " SITIO copado para realizar la Reserva";
 			}
@@ -648,7 +649,7 @@ public class ManagerCarga {
 		res.setResFechaCreacion(new Date());
 		res.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
 		res.setResId(datos.get(SP_CEDULA)+prd_id);
-		res.setArrSitioPeriodo(obtenerSitio(datos.get(SP_SITIO)));
+		res.setArrSitioPeriodo(obtenerSitio(datos.get(SP_SITIO),prd_id));
 		return res;
 	}
 
@@ -1057,8 +1058,8 @@ public class ManagerCarga {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean verificarSitio(String sitio){
-		List<ArrSitioPeriodo> s= mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre='"+sitio+"'", null);
+	public boolean verificarSitio(String sitio,String prd){
+		List<ArrSitioPeriodo> s= mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre='"+sitio+"' and o.id.prdId='"+prd+"'", null);
 		if (s==null || s.isEmpty()){
 			return false;
 		}else
@@ -1066,8 +1067,8 @@ public class ManagerCarga {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrSitioPeriodo obtenerSitio(String sitio){
-		List<ArrSitioPeriodo> s= mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre='"+sitio+"'", null);
+	public ArrSitioPeriodo obtenerSitio(String sitio,String periodo){
+		List<ArrSitioPeriodo> s= mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre='"+sitio+"' and o.id.prdId='"+periodo+"'", null);
 		if (s==null || s.isEmpty()){
 			return null;
 		}else
@@ -1114,5 +1115,23 @@ public class ManagerCarga {
 		}else
 			return true;
 	}
+	
+	/**
+	 * Metodo para obtener el Atributo mediante un ID
+	 * 
+	 * @param dni
+	 * @return Objeto
+	 * @throws Exception
+	 */
+	public String ParametroByID(String dni) {
+		try {
+			ArrParametro p = (ArrParametro) mngDao.findById(ArrParametro.class, dni);
+			return p.getParValor();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		
+	}// Cierre del metodo
 
 }

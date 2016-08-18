@@ -1,6 +1,5 @@
 package viviendas.controller.reserve;
 
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,6 +59,9 @@ public class ReservaBean implements Serializable {
 	private boolean reservar;
 	private Integer libres;
 
+	// Atributo de url_contratos
+	private String url_contrato;
+
 	public ReservaBean() {
 
 	}
@@ -76,6 +78,7 @@ public class ReservaBean implements Serializable {
 		libres = null;
 		reservar = false;
 		sitioId = null;
+		url_contrato = mngRes.ParametroByID("dir_contratos");
 	}
 
 	/**
@@ -465,11 +468,11 @@ public class ReservaBean implements Serializable {
 			String nombre = Contrato.generarContrato(estudiante, periodo, reserva.getArrSitioPeriodo().getSitNombre());
 			nombre = "Contrato_" + estudiante.getId().getPerDni() + ".zip";
 			this.zip(estudiante.getId().getPerDni(), periodo.getPrdId());
-			Funciones.descargarZip(Funciones.ruta_pdf + nombre);
+			Funciones.descargarZip(url_contrato+ nombre);
 			// MODIFICAR NOMBRE CONTRATO
 			mngRes.agregarContratoReserva(estudiante, periodo.getPrdId());
 		} catch (Exception e) {
-			Funciones.descargarPdf(Funciones.ruta_pdf + "error.pdf");
+			Funciones.descargarPdf(url_contrato + "error.pdf");
 			Mensaje.crearMensajeERROR("Error: " + e.getMessage());
 		}
 
@@ -490,17 +493,14 @@ public class ReservaBean implements Serializable {
 	}
 
 	public void zip(String per_dni, String periodo) throws IOException {
-		ZipOutputStream os = new ZipOutputStream(new FileOutputStream(
-				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//Contrato_"
-						+ per_dni + ".zip"));
+		ZipOutputStream os = new ZipOutputStream(new FileOutputStream(url_contrato + "Contrato_" + per_dni + ".zip"));
 
 		// Ingreso de un Archivo
 		ZipEntry entrada = new ZipEntry("Contrato.pdf");
 		os.putNextEntry(entrada);
 
 		FileInputStream fis = new FileInputStream(
-				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//"
-						+ periodo + "_" + per_dni + ".pdf");
+				url_contrato + periodo + "_" + per_dni + ".pdf");
 		byte[] buffer = new byte[1024];
 		int leido = 0;
 		while (0 < (leido = fis.read(buffer))) {
@@ -515,7 +515,7 @@ public class ReservaBean implements Serializable {
 		os.putNextEntry(entrada2);
 
 		FileInputStream fis2 = new FileInputStream(
-				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//codigoEtica.pdf");
+				url_contrato+"codigoEtica.pdf");
 		byte[] buffer2 = new byte[1024];
 		int leido2 = 0;
 		while (0 < (leido2 = fis2.read(buffer2))) {
@@ -530,7 +530,7 @@ public class ReservaBean implements Serializable {
 		os.putNextEntry(entrada3);
 
 		FileInputStream fis3 = new FileInputStream(
-				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//usoEspacios.pdf");
+				url_contrato+"usoEspacios.pdf");
 		byte[] buffer3 = new byte[1024];
 		int leido3 = 0;
 		while (0 < (leido3 = fis3.read(buffer3))) {
@@ -545,7 +545,7 @@ public class ReservaBean implements Serializable {
 		os.putNextEntry(entrada4);
 
 		FileInputStream fis4 = new FileInputStream(
-				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//mascotas.pdf");
+				url_contrato+"mascotas.pdf");
 		byte[] buffer4 = new byte[1024];
 		int leido4 = 0;
 		while (0 < (leido4 = fis4.read(buffer4))) {

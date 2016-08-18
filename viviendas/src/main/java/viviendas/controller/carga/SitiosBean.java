@@ -372,7 +372,6 @@ public class SitiosBean {
 					GEN_Sitios s = manager.findSitioById(sit);
 					manager.insertarSitio(s.sit_codigo, prdId, s.sit_nombre, s.sit_capacidad, s.sit_capacidad,
 							new BigDecimal(s.sit_costo_arriendo), sitGenero);
-					Mensaje.crearMensajeINFO("Inserción realizada correctamente");
 				}
 			}
 			this.getlistSitios();

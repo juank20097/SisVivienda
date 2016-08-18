@@ -11,6 +11,7 @@ import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrMatriculadoPK;
 import viviendas.model.dao.entities.ArrNegado;
 import viviendas.model.dao.entities.ArrNegadoPK;
+import viviendas.model.dao.entities.ArrParametro;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
@@ -300,6 +301,7 @@ public class ManagerReserva {
 		mngDao.actualizar(reserva);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Integer traerLibres(String sitio) {
 		List<ArrSitioPeriodo> sp = mngDao.findWhere(ArrSitioPeriodo.class, "o.id.artId='" + sitio + "'", null);
 		if (sp != null) {
@@ -308,4 +310,23 @@ public class ManagerReserva {
 			return null;
 		}
 	}
+	
+	/**
+	 * Metodo para obtener el Atributo mediante un ID
+	 * 
+	 * @param dni
+	 * @return Objeto
+	 * @throws Exception
+	 */
+	public String ParametroByID(String dni) {
+		try {
+			ArrParametro p = (ArrParametro) mngDao.findById(ArrParametro.class, dni);
+			return p.getParValor();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		
+	}// Cierre del metodo
+	
 }

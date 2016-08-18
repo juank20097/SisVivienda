@@ -1,5 +1,6 @@
 package viviendas.controller.carga;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import jxl.Workbook;
 import viviendas.controller.access.SesionBean;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
+import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mensaje;
 import viviendas.model.manager.ManagerCarga;
 
@@ -47,6 +49,9 @@ public class EstudianteSitioBean {
 
 	// string con todos los errores
 	private String error;
+	
+	//atributo para url_excel
+	private String url_excel;
 
 	public EstudianteSitioBean() {
 	}
@@ -56,6 +61,7 @@ public class EstudianteSitioBean {
 		session.validarSesion();
 		l_estudiantes = new ArrayList<ArrReserva>();
 		errores = new ArrayList<String>();
+		url_excel=manager.ParametroByID("dir_excel");
 	}
 
 	/**
@@ -211,7 +217,7 @@ public class EstudianteSitioBean {
 	 * @return boolean
 	 */
 	private boolean filaValida(Cell[] column, int nroFila) {
-		String error = manager.validarFilaExcel3(column);
+		String error = manager.validarFilaExcel3(column,getPrdId());
 		if (error.isEmpty())
 			return true;
 		else {
@@ -241,5 +247,14 @@ public class EstudianteSitioBean {
 		return lista;
 	}
 	
-	//proceso de sitios Libres
+	/**
+	 * Método para descargar los archivos de ejemplo
+	 */
+	public void descargarArchivoEjemplo() {
+//		ServletContext servletContext = (ServletContext) FacesContext
+//				.getCurrentInstance().getExternalContext().getContext();
+//		String contextPath = servletContext.getRealPath(File.separator
+//				+ "resources/excel/Ejemplo_Base_Estudiantes_Sitios.xls");
+		Funciones.descargarExcel(url_excel+"Ejemplo_Base_Estudiantes_Sitios.xls");
+	}
 }

@@ -1,6 +1,5 @@
 package viviendas.controller.carga;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,10 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -66,6 +63,9 @@ public class MatriculadosBean {
 	private List<ArrMatriculado> matriculados;
 	private List<ArrNegado> negados;
 	private List<String> errores;
+	
+	//atributo de url_excel
+	private String url_excel;
 
 	public MatriculadosBean() {
 	}
@@ -76,6 +76,7 @@ public class MatriculadosBean {
 		matriculados = new ArrayList<ArrMatriculado>();
 		errores = new ArrayList<String>();
 		negados = new ArrayList<ArrNegado>();
+		url_excel= manager.ParametroByID("dir_excel");
 	}
 	
 	public void validarSesion(){
@@ -539,22 +540,22 @@ public class MatriculadosBean {
 	 * Método para descargar los archivos de ejemplo
 	 */
 	public void descargarArchivoEjemplo() {
-		ServletContext servletContext = (ServletContext) FacesContext
-				.getCurrentInstance().getExternalContext().getContext();
-		String contextPath = servletContext.getRealPath(File.separator
-				+ "resources/excel/Ejemplo_Base_Matriculados.xls");
-		Funciones.descargarExcel(contextPath);
+//		ServletContext servletContext = (ServletContext) FacesContext
+//				.getCurrentInstance().getExternalContext().getContext();
+//		String contextPath = servletContext.getRealPath(File.separator
+//				+ "resources/excel/Ejemplo_Base_Matriculados.xls");
+		Funciones.descargarExcel(url_excel+"Ejemplo_Base_Matriculados.xls");
 	}
 	
 	/**
 	 * Método para descargar los archivos de ejemplo
 	 */
 	public void descargarArchivoEjemplo2() {
-		ServletContext servletContext = (ServletContext) FacesContext
-				.getCurrentInstance().getExternalContext().getContext();
-		String contextPath = servletContext.getRealPath(File.separator
-				+ "resources/excel/Ejemplo_Base_Lista_Negra.xls");
-		Funciones.descargarExcel(contextPath);
+//		ServletContext servletContext = (ServletContext) FacesContext
+//				.getCurrentInstance().getExternalContext().getContext();
+//		String contextPath = servletContext.getRealPath(File.separator
+//				+ "resources/excel/Ejemplo_Base_Lista_Negra.xls");
+		Funciones.descargarExcel(url_excel+"Ejemplo_Base_Lista_Negra.xls");
 	}
 
 }

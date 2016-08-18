@@ -39,6 +39,9 @@ public class ReservasBean {
 
 	// Atributos de PK
 	private String prdId;
+	
+	//atributo de url_pdf
+	private String url_pdf;
 
 	private List<ArrReserva> reservas;
 
@@ -49,6 +52,7 @@ public class ReservasBean {
 	public void ini() {
 		session.validarSesion();
 		reservas = new ArrayList<ArrReserva>();
+		url_pdf=manager.ParametroByID("dir_contratos");
 	}
 
 	/**
@@ -168,10 +172,10 @@ public class ReservasBean {
 
 	public void bajarContrato(String dni) {
 		try {
-			Funciones.descargarPdf(Funciones.ruta_pdf +prdId+"_"+dni+".pdf");
+			Funciones.descargarPdf(url_pdf +prdId+"_"+dni+".pdf");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			Funciones.descargarPdf(Funciones.ruta_pdf + "error.pdf");
+			Funciones.descargarPdf(url_pdf + "error.pdf");
 			e.printStackTrace();
 		}
 	}
