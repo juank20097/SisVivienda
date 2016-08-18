@@ -1,7 +1,6 @@
 package viviendas.controller.carga;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +20,6 @@ import jxl.Workbook;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import viviendas.controller.access.SesionBean;
@@ -69,8 +66,6 @@ public class MatriculadosBean {
 	private List<ArrMatriculado> matriculados;
 	private List<ArrNegado> negados;
 	private List<String> errores;
-	
-	private StreamedContent file3;
 
 	public MatriculadosBean() {
 	}
@@ -81,30 +76,10 @@ public class MatriculadosBean {
 		matriculados = new ArrayList<ArrMatriculado>();
 		errores = new ArrayList<String>();
 		negados = new ArrayList<ArrNegado>();
-		InputStream stream3 = ((ServletContext) FacesContext
-				.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/contratos/error.pdf");
-		file3 = new DefaultStreamedContent(stream3, "application/pdf",
-				"error.pdf");
 	}
 	
 	public void validarSesion(){
 		session.validarSesion();
-	}
-
-	/**
-	 * @return the file3
-	 */
-	public StreamedContent getFile3() {
-		return file3;
-	}
-
-	/**
-	 * @param file3
-	 *            the file3 to set
-	 */
-	public void setFile3(StreamedContent file3) {
-		this.file3 = file3;
 	}
 
 	/**
