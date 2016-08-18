@@ -7,8 +7,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+
+import org.primefaces.context.RequestContext;
 
 import viviendas.model.conn.entities.GEN_Areas;
 import viviendas.model.conn.entities.GEN_Sitios;
@@ -23,7 +25,7 @@ import viviendas.model.manager.ManagerCarga;
  * @author jestevez
  * 
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean
 public class SitiosBean {
 
@@ -317,7 +319,7 @@ public class SitiosBean {
 	 * @param t
 	 * @return
 	 */
-	public String cargarSitio(ArrSitioPeriodo sp) {
+	public void cargarSitio(ArrSitioPeriodo sp) {
 		prdId = sp.getId().getPrdId();
 		artId = sp.getId().getArtId();
 		sitCapacidad = sp.getSitCapacidad();
@@ -325,7 +327,7 @@ public class SitiosBean {
 		sitLibres = sp.getSitLibres();
 		sitNombre = sp.getSitNombre();
 		sitValorArriendo = sp.getSitValorArriendo();
-		return "nsitios?faces-redirect=true";
+		RequestContext.getCurrentInstance().execute("PF('dlgeditar').show()");
 	}
 
 	/**
@@ -333,7 +335,7 @@ public class SitiosBean {
 	 * 
 	 * @return
 	 */
-	public String editarSitio() {
+	public void editarSitio() {
 		try {
 			manager.editarSitio(artId, prdId, sitCapacidad, sitValorArriendo, sitGenero);
 			// limpiar datos
@@ -348,7 +350,7 @@ public class SitiosBean {
 			e.printStackTrace();
 		}
 		this.getListSitiosPer();
-		return "sitios?faces-redirect=true";
+		RequestContext.getCurrentInstance().execute("PF('dlgeditar').hide()");
 	}
 
 	/**
@@ -400,7 +402,7 @@ public class SitiosBean {
 	 * 
 	 * @return
 	 */
-	public String salir() {
+	public void salir() {
 		// limpiar datos
 		artId = null;
 		sitCapacidad = null;
@@ -408,7 +410,7 @@ public class SitiosBean {
 		sitLibres = null;
 		sitNombre = "";
 		sitValorArriendo = null;
-		return "sitios?faces-redirect=true";
+		RequestContext.getCurrentInstance().execute("PF('dlgeditar').hide()");
 	}
 
 	/**

@@ -82,7 +82,7 @@
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="100">
 						<p:commandButton icon="ui-icon-pencil"
-							action="#{sitiosBean.cargarSitio(sit)}" />
+							action="#{sitiosBean.cargarSitio(sit)}" update=":frm2:dialog" />
 						<p:commandButton icon="ui-icon-trash"
 							action="#{sitiosBean.eliminar(sit)}" update="frm">
 							<p:confirm header="Confirmación"
@@ -97,8 +97,6 @@
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</p:confirmDialog>
 					</p:column>
-
-
 
 					<p:column filterBy="#{sit.sitNombre}" filterMatchMode="contains"
 						headerText="SITIO" width="200">
@@ -121,6 +119,68 @@
 				</p:dataTable>
 			</b:panel>
 		</h:form>
+
+
+		<h:form id="frm2">
+			<p:dialog id="dialog" style="padding-top:50px;"
+				header="Edición de Sitios" widgetVar="dlgeditar" width="500"
+				modal="true" resizable="false" closable="true" position="top">
+				<p:messages closable="true"></p:messages>
+				<b:panel  look="primary"
+					collapsible="false">
+					<b:row>
+						<b:column span="2">
+							<h:outputLabel value="Nombre del Sitio*" />
+						</b:column>
+						<b:column span="10">
+							<b:inputText value="#{sitiosBean.sitNombre}" disabled="true"></b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h:outputLabel value="Periodo*" />
+						</b:column>
+						<b:column span="10">
+							<b:inputText value="#{sitiosBean.prdId}" disabled="true"></b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h:outputLabel value="Capacidad*" />
+						</b:column>
+						<b:column span="10">
+							<b:inputText value="#{sitiosBean.sitCapacidad}" required="true"
+								requiredMessage="Capacidad Necesaria"></b:inputText>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h:outputLabel value="Genero*" />
+						</b:column>
+						<b:column span="10">
+							<b:selectOneMenu value="#{sitiosBean.sitGenero}">
+								<f:selectItems value="#{sitiosBean.listGenero}" />
+							</b:selectOneMenu>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column span="2">
+							<h:outputLabel value="Valor Arriendo*" />
+						</b:column>
+						<b:column span="10">
+							<b:inputText value="#{sitiosBean.sitValorArriendo}"
+								required="true" requiredMessage="Valor Arriendo Necesario"></b:inputText>
+						</b:column>
+					</b:row>
+					<br />
+					<b:commandButton value="Guardar" action="#{sitiosBean.editarSitio}"
+						update="frm" look="info"></b:commandButton>&nbsp;&nbsp;&nbsp;
+					<b:commandButton value="Cancelar" action="#{sitiosBean.salir}"
+						immediate="true" update=":frm" look="info"></b:commandButton>
+				</b:panel>
+			</p:dialog>
+		</h:form>
+		
 	</ui:define>
 </ui:composition>
 
