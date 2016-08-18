@@ -353,7 +353,102 @@ public class Funciones {
 				e.printStackTrace();
 			}
 
-			System.out.println("Descargado....!!!");
+			System.out.println("Descargado EXCEL....!!!");
+			ctx.responseComplete();
+		}
+	}
+	
+	/**
+	 * Método para descargar archivos excel
+	 * 
+	 * @param url
+	 */
+	public static void descargarPdf(String url) {
+		System.out.println(url);
+		File ficheroXLS = new File(url);
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(ficheroXLS);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		byte[] bytes = new byte[1000];
+		int read = 0;
+
+		if (!ctx.getResponseComplete()) {
+			String fileName = ficheroXLS.getName();
+			//String contentType = "application/vnd.ms-excel";
+			String contentType = "application/pdf";
+			HttpServletResponse response = (HttpServletResponse) ctx
+					.getExternalContext().getResponse();
+			response.setContentType(contentType);
+			response.setHeader("Content-Disposition", "attachment;filename=\""
+					+ fileName + "\"");
+			ServletOutputStream out = null;
+			try {
+				out = response.getOutputStream();
+				while ((read = fis.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println("Descargado PDF....!!!");
+			ctx.responseComplete();
+		}
+	}
+	
+	/**
+	 * Método para descargar archivos excel
+	 * 
+	 * @param url
+	 */
+	public static void descargarZip(String url) {
+		System.out.println(url);
+		File ficheroXLS = new File(url);
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(ficheroXLS);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		byte[] bytes = new byte[1000];
+		int read = 0;
+
+		if (!ctx.getResponseComplete()) {
+			String fileName = ficheroXLS.getName();
+			//String contentType = "application/vnd.ms-excel";
+			// String contentType = "application/pdf";
+			String contentType = "application/zip";
+			HttpServletResponse response = (HttpServletResponse) ctx
+					.getExternalContext().getResponse();
+			response.setContentType(contentType);
+			response.setHeader("Content-Disposition", "attachment;filename=\""
+					+ fileName + "\"");
+			ServletOutputStream out = null;
+			try {
+				out = response.getOutputStream();
+				while ((read = fis.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println("Descargado ZIP....!!!");
 			ctx.responseComplete();
 		}
 	}

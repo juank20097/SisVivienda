@@ -1,8 +1,7 @@
 package viviendas.controller.reserve;
 
-import java.io.File;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,15 +15,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.ServletContext;
 
 import org.primefaces.context.RequestContext;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-
-import com.itextpdf.text.DocumentException;
 
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrPeriodo;
@@ -67,8 +60,6 @@ public class ReservaBean implements Serializable {
 	private boolean reservar;
 	private Integer libres;
 
-	private StreamedContent archivo;
-
 	public ReservaBean() {
 
 	}
@@ -85,10 +76,6 @@ public class ReservaBean implements Serializable {
 		libres = null;
 		reservar = false;
 		sitioId = null;
-		archivo = new DefaultStreamedContent(
-				((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext())
-						.getResourceAsStream(File.separatorChar + "contratos" + File.separatorChar + "error.pdf"),
-				"texto/pdf", "error.pdf");
 	}
 
 	/**
@@ -274,21 +261,6 @@ public class ReservaBean implements Serializable {
 	 */
 	public boolean isFinalizado() {
 		return finalizado;
-	}
-
-	/**
-	 * @return the archivo
-	 */
-	public StreamedContent getArchivo() {
-		return archivo;
-	}
-
-	/**
-	 * @param archivo
-	 *            the archivo to set
-	 */
-	public void setArchivo(StreamedContent archivo) {
-		this.archivo = archivo;
 	}
 
 	/**
@@ -491,35 +463,16 @@ public class ReservaBean implements Serializable {
 	public void generarContrato() {
 		try {
 			String nombre = Contrato.generarContrato(estudiante, periodo, reserva.getArrSitioPeriodo().getSitNombre());
-			nombre="Contrato_"+estudiante.getId().getPerDni()+".zip";
-			this.zip(estudiante.getId().getPerDni(),periodo.getPrdId());
-			setArchivo(new DefaultStreamedContent(new FileInputStream(new File(Funciones.ruta_pdf + nombre)),
-					"application/zip", nombre));
+			nombre = "Contrato_" + estudiante.getId().getPerDni() + ".zip";
+			this.zip(estudiante.getId().getPerDni(), periodo.getPrdId());
+			Funciones.descargarZip(Funciones.ruta_pdf + nombre);
 			// MODIFICAR NOMBRE CONTRATO
 			mngRes.agregarContratoReserva(estudiante, periodo.getPrdId());
-			
-		} catch (FileNotFoundException e) {
-			try {
-				setArchivo(new DefaultStreamedContent(new FileInputStream(new File(Funciones.ruta_pdf + "error.pdf")),
-						"application/pdf", "error.pdf"));
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			Mensaje.crearMensajeERROR("FileNotFoundException: " + e.getMessage());
-		} catch (DocumentException e) {
-			try {
-				setArchivo(new DefaultStreamedContent(new FileInputStream(new File(Funciones.ruta_pdf + "error.pdf")),
-						"application/pdf", "error.pdf"));
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			Mensaje.crearMensajeERROR("DocumentException: " + e.getMessage());
 		} catch (Exception e) {
+			Funciones.descargarPdf(Funciones.ruta_pdf + "error.pdf");
 			Mensaje.crearMensajeERROR("Error: " + e.getMessage());
 		}
-		
+
 	}
 
 	/**
@@ -537,50 +490,71 @@ public class ReservaBean implements Serializable {
 	}
 
 	public void zip(String per_dni, String periodo) throws IOException {
-		ZipOutputStream os = new ZipOutputStream(new FileOutputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//Contrato_"+per_dni+".zip"));
-		
-		//Ingreso de un Archivo
+		ZipOutputStream os = new ZipOutputStream(new FileOutputStream(
+				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//Contrato_"
+						+ per_dni + ".zip"));
+
+		// Ingreso de un Archivo
 		ZipEntry entrada = new ZipEntry("Contrato.pdf");
 		os.putNextEntry(entrada);
-		
-		FileInputStream fis = new FileInputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//"+periodo+"_"+per_dni+".pdf");
-		byte [] buffer = new byte[1024];
-		int leido=0;
-		while (0 < (leido=fis.read(buffer))){
-		   os.write(buffer,0,leido);
+
+		FileInputStream fis = new FileInputStream(
+				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//"
+						+ periodo + "_" + per_dni + ".pdf");
+		byte[] buffer = new byte[1024];
+		int leido = 0;
+		while (0 < (leido = fis.read(buffer))) {
+			os.write(buffer, 0, leido);
 		}
-		
+
 		fis.close();
 		os.closeEntry();
-		
-		//Ingreso de un Archivo
-		ZipEntry entrada2 = new ZipEntry("Código de Ética.docx");
+
+		// Ingreso de un Archivo
+		ZipEntry entrada2 = new ZipEntry("Código de Ética.pdf");
 		os.putNextEntry(entrada2);
-		
-		FileInputStream fis2 = new FileInputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//código_ética.docx");
-		byte [] buffer2 = new byte[1024];
-		int leido2=0;
-		while (0 < (leido2=fis2.read(buffer2))){
-		   os.write(buffer2,0,leido2);
+
+		FileInputStream fis2 = new FileInputStream(
+				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//codigoEtica.pdf");
+		byte[] buffer2 = new byte[1024];
+		int leido2 = 0;
+		while (0 < (leido2 = fis2.read(buffer2))) {
+			os.write(buffer2, 0, leido2);
 		}
-		
+
 		fis2.close();
 		os.closeEntry();
-		
-		//Ingreso de un Archivo
-		ZipEntry entrada3 = new ZipEntry("Manual de Uso de Espacios.docx");
+
+		// Ingreso de un Archivo
+		ZipEntry entrada3 = new ZipEntry("Manual de Uso de Espacios.pdf");
 		os.putNextEntry(entrada3);
-		
-		FileInputStream fis3 = new FileInputStream("C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//manual_uso_espacios.docx");
-		byte [] buffer3 = new byte[1024];
-		int leido3=0;
-		while (0 < (leido3=fis3.read(buffer3))){
-		   os.write(buffer3,0,leido3);
+
+		FileInputStream fis3 = new FileInputStream(
+				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//usoEspacios.pdf");
+		byte[] buffer3 = new byte[1024];
+		int leido3 = 0;
+		while (0 < (leido3 = fis3.read(buffer3))) {
+			os.write(buffer3, 0, leido3);
 		}
-		
+
 		fis3.close();
 		os.closeEntry();
-		
+
+		// Ingreso de un Archivo
+		ZipEntry entrada4 = new ZipEntry("Restricción de Mascotas.pdf");
+		os.putNextEntry(entrada4);
+
+		FileInputStream fis4 = new FileInputStream(
+				"C://Users//jestevez//Documents//wildfly-8.2.1.Final//standalone//deployments//viviendas.war//resources//contratos//mascotas.pdf");
+		byte[] buffer4 = new byte[1024];
+		int leido4 = 0;
+		while (0 < (leido4 = fis4.read(buffer4))) {
+			os.write(buffer4, 0, leido4);
+		}
+
+		fis4.close();
+		os.closeEntry();
+
 		os.close();
 	}
 

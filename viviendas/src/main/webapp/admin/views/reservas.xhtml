@@ -96,8 +96,7 @@
 						<f:facet name="header">
 							<h:outputText value="CONTRATO" />
 						</f:facet>
-						<p:commandButton value="Descargar" actionListener="#{reservasBean.setearContrato(res.perDni)}" ajax="false">
-							<p:fileDownload value="#{reservasBean.file3}" />
+						<p:commandButton value="Descargar" actionListener="#{reservasBean.bajarContrato(res.perDni)}" ajax="false">
 						</p:commandButton>
 					</h:column>
 					<h:column>

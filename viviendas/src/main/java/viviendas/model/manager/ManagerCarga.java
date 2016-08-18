@@ -1102,8 +1102,8 @@ public class ManagerCarga {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean verificarReserva(String sitio){
-		List<ArrReserva> s= mngDao.findWhere(ArrReserva.class, "o.arrSitioPeriodo.sitNombre='"+sitio+"'", null);
+	public boolean verificarReserva(String sitio,String periodo){
+		List<ArrReserva> s= mngDao.findWhere(ArrReserva.class, "o.arrSitioPeriodo.sitNombre='"+sitio+"' and o.arrSitioPeriodo.id.prdId='"+periodo+"'", null);
 		if (s==null || s.isEmpty()){
 			return false;
 		}else

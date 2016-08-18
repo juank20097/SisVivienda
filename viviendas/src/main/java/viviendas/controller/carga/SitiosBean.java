@@ -390,7 +390,7 @@ public class SitiosBean {
 	 * @param sitio
 	 */
 	public void eliminar(ArrSitioPeriodo sitio) {
-		if (manager.verificarReserva(sitio.getSitNombre())) {
+		if (manager.verificarReserva(sitio.getSitNombre(),prdId)) {
 			Mensaje.crearMensajeERROR("El Sitio no puede ser eliminar porque ya cuenta con una reserva.");
 		} else {
 			manager.eliminarSitio(sitio);

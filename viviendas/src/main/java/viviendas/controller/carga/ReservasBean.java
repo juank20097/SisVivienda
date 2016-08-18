@@ -1,10 +1,5 @@
 package viviendas.controller.carga;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import java.util.ArrayList;
 
 import java.util.List;
@@ -12,13 +7,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
-import javax.servlet.ServletContext;
-
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrPeriodo;
@@ -35,7 +25,7 @@ import viviendas.model.manager.ManagerCarga;
  * @author jestevez
  *
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean
 public class ReservasBean {
 
@@ -48,17 +38,12 @@ public class ReservasBean {
 
 	private List<ArrReserva> reservas;
 
-	private StreamedContent file3;
-
 	public ReservasBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
 		reservas = new ArrayList<ArrReserva>();
-		InputStream stream3 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext())
-				.getResourceAsStream("/contratos/error.pdf");
-		file3 = new DefaultStreamedContent(stream3, "application/pdf", "error.pdf");
 	}
 
 	/**
@@ -73,21 +58,6 @@ public class ReservasBean {
 	 */
 	public void setPrdId(String prdId) {
 		this.prdId = prdId;
-	}
-
-	/**
-	 * @return the file3
-	 */
-	public StreamedContent getFile3() {
-		return file3;
-	}
-
-	/**
-	 * @param file3
-	 *            the file3 to set
-	 */
-	public void setFile3(StreamedContent file3) {
-		this.file3 = file3;
 	}
 
 	/**
@@ -191,13 +161,12 @@ public class ReservasBean {
 		return re;
 	}
 
-	public void setearContrato(String dni) {
+	public void bajarContrato(String dni) {
 		try {
-			file3 = new DefaultStreamedContent(
-					new FileInputStream(new File(Funciones.ruta_pdf + prdId + "_" + dni + ".pdf")), "application/pdf",
-					prdId + "_" + dni + ".pdf");
-		} catch (FileNotFoundException e) {
+			Funciones.descargarPdf(Funciones.ruta_pdf +prdId+"_"+dni+".pdf");
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			Funciones.descargarPdf(Funciones.ruta_pdf + "error.pdf");
 			e.printStackTrace();
 		}
 	}
