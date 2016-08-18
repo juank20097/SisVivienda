@@ -220,8 +220,13 @@ public class ManagerCarga {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ArrSitioPeriodo> todosSitios() {
-		return mngDao.findAll(ArrSitioPeriodo.class);
+	public List<ArrSitioPeriodo> SitiosXNomPeriodo(String nombre,String periodo) {
+		List<ArrSitioPeriodo> sp = mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre ='"+nombre+"' and o.id.prdId='"+periodo+"'", "o.sitNombre asc");
+		if (sp==null || sp.isEmpty()){
+			return null;
+		}else{
+			return sp;
+		}
 	}
 
 	/**

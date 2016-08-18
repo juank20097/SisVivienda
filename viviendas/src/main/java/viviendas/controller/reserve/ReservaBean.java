@@ -274,7 +274,7 @@ public class ReservaBean implements Serializable {
 			else {
 				if (mngRes.buscarNegadoPeriodo(getDniEstudiante(), periodo.getPrdId()))
 					Mensaje.crearMensajeWARN(
-							"Usted no puede realizar una reserva. Para más información diríjase a las oficinas de Bienestar Universitario.");
+							"Usted no puede realizar una reserva. Para más información diríjase a las oficinas de Bienestar Estudiantil.");
 				else {
 					estudiante = mngRes.buscarMatriculadoPeriodo(getDniEstudiante(), periodo.getPrdId());
 					if (estudiante == null) {
