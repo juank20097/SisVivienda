@@ -7,7 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 import viviendas.model.conn.entities.GEN_Areas;
@@ -23,7 +23,7 @@ import viviendas.model.manager.ManagerCarga;
  * @author jestevez
  * 
  */
-@ViewScoped
+@SessionScoped
 @ManagedBean
 public class SitiosBean {
 
@@ -47,9 +47,9 @@ public class SitiosBean {
 	private List<ArrSitioPeriodo> lsitper;
 
 	public SitiosBean() {
-		
+
 	}
-	
+
 	@PostConstruct
 	private void ini() {
 		lsitios = new ArrayList<String>();
@@ -256,11 +256,9 @@ public class SitiosBean {
 	public List<SelectItem> getlistGenero() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
 		lista.add(new SelectItem(Funciones.estadoMasculino,
-				Funciones.estadoMasculino + " : "
-						+ Funciones.valorEstadoMasculino));
+				Funciones.estadoMasculino + " : " + Funciones.valorEstadoMasculino));
 		lista.add(new SelectItem(Funciones.estadoFemenino,
-				Funciones.estadoFemenino + " : "
-						+ Funciones.valorEstadoFemenino));
+				Funciones.estadoFemenino + " : " + Funciones.valorEstadoFemenino));
 		return lista;
 	}
 
@@ -274,8 +272,7 @@ public class SitiosBean {
 		try {
 			for (GEN_Sitios a : manager.findAllSitiosXArea(areId, null)) {
 				if (añadido(a) == false) {
-					lista.add(new SelectItem(a.getSit_nombre(), a
-							.getSit_nombre()));
+					lista.add(new SelectItem(a.getSit_nombre(), a.getSit_nombre()));
 				}
 			}
 		} catch (Exception e) {
@@ -331,10 +328,14 @@ public class SitiosBean {
 		return "nsitios?faces-redirect=true";
 	}
 
+	/**
+	 * Método para editar un sitio
+	 * 
+	 * @return
+	 */
 	public String editarSitio() {
 		try {
-			manager.editarSitio(artId, prdId, sitCapacidad, sitValorArriendo,
-					sitGenero);
+			manager.editarSitio(artId, prdId, sitCapacidad, sitValorArriendo, sitGenero);
 			// limpiar datos
 			artId = null;
 			sitCapacidad = null;
@@ -359,18 +360,17 @@ public class SitiosBean {
 				if (prdId == null || prdId.equals("-1")) {
 					Mensaje.crearMensajeWARN("Debe seleccionar el Periodo antes de Insertar");
 					break;
-				} 
-				
+				}
+
 				if (sitGenero == null || sitGenero.equals("-1")) {
 					Mensaje.crearMensajeWARN("Debe seleccionar el Genero antes de Insertar");
 					break;
-				} 
-				
+				}
+
 				else {
 					GEN_Sitios s = manager.findSitioById(sit);
-					manager.insertarSitio(s.sit_codigo, prdId, s.sit_nombre,
-							s.sit_capacidad, s.sit_capacidad, new BigDecimal(
-									s.sit_costo_arriendo), sitGenero);
+					manager.insertarSitio(s.sit_codigo, prdId, s.sit_nombre, s.sit_capacidad, s.sit_capacidad,
+							new BigDecimal(s.sit_costo_arriendo), sitGenero);
 				}
 			}
 			this.getlistSitios();
@@ -387,9 +387,12 @@ public class SitiosBean {
 	 * @param sitio
 	 */
 	public void eliminar(ArrSitioPeriodo sitio) {
-		manager.eliminarSitio(sitio);
-		this.getListSitiosPer();
-
+		if (!manager.verificarReserva(sitio.getSitNombre())) {
+			Mensaje.crearMensajeERROR("El Sitio no puede ser eliminar porque ya cuenta con una reserva.");
+		} else {
+			manager.eliminarSitio(sitio);
+			this.getListSitiosPer();
+		}
 	}
 
 	/**
@@ -418,11 +421,17 @@ public class SitiosBean {
 		this.getListSitiosPer();
 	}
 
+	/**
+	 * Método para buscar un sitio por nombre
+	 * 
+	 * @param sitio
+	 * @return
+	 */
 	public String SitioNomByID(ArrReserva sitio) {
 		ArrSitioPeriodo sp = new ArrSitioPeriodo();
 		try {
-			sp = manager.SitiosById(sitio.getArrSitioPeriodo().getId()
-					.getPrdId(), sitio.getArrSitioPeriodo().getId().getArtId());
+			sp = manager.SitiosById(sitio.getArrSitioPeriodo().getId().getPrdId(),
+					sitio.getArrSitioPeriodo().getId().getArtId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

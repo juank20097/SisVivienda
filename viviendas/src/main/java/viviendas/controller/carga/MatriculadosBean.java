@@ -1,8 +1,6 @@
 package viviendas.controller.carga;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +27,6 @@ import org.primefaces.model.UploadedFile;
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrNegado;
 import viviendas.model.dao.entities.ArrPeriodo;
-import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mensaje;
 import viviendas.model.manager.ManagerCarga;
@@ -64,17 +61,11 @@ public class MatriculadosBean {
 	private int NUMERO_COLUMNAS_EXCEL = 8;
 	private int NUMERO_COLUMNAS_EXCEL2 = 2;
 
-	private List<ArrReserva> reservas;
-
 	// listas de registros
 	private List<ArrMatriculado> matriculados;
 	private List<ArrNegado> negados;
 	private List<String> errores;
-
-	private String e;
-
-	private StreamedContent file;
-	private StreamedContent file2;
+	
 	private StreamedContent file3;
 
 	public MatriculadosBean() {
@@ -85,7 +76,6 @@ public class MatriculadosBean {
 		matriculados = new ArrayList<ArrMatriculado>();
 		errores = new ArrayList<String>();
 		negados = new ArrayList<ArrNegado>();
-		reservas = new ArrayList<ArrReserva>();
 		InputStream stream3 = ((ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/contratos/error.pdf");
@@ -124,36 +114,6 @@ public class MatriculadosBean {
 	}
 
 	/**
-	 * @return the file2
-	 */
-	public StreamedContent getFile2() {
-		return file2;
-	}
-
-	/**
-	 * @param file2
-	 *            the file2 to set
-	 */
-	public void setFile2(StreamedContent file2) {
-		this.file2 = file2;
-	}
-
-	/**
-	 * @return the e
-	 */
-	public String getE() {
-		return e;
-	}
-
-	/**
-	 * @param e
-	 *            the e to set
-	 */
-	public void setE(String e) {
-		this.e = e;
-	}
-
-	/**
 	 * @return the matriculados
 	 */
 	public List<ArrMatriculado> getMatriculados() {
@@ -181,21 +141,6 @@ public class MatriculadosBean {
 	 */
 	public void setErrores(List<String> errores) {
 		this.errores = errores;
-	}
-
-	/**
-	 * @return the file
-	 */
-	public StreamedContent getFile() {
-		return file;
-	}
-
-	/**
-	 * @param file
-	 *            the file to set
-	 */
-	public void setFile(StreamedContent file) {
-		this.file = file;
 	}
 
 	/**
@@ -363,6 +308,9 @@ public class MatriculadosBean {
 		this.matRepresNombre = matRepresNombre;
 	}
 
+	/**
+	 * Método para listar negados
+	 */
 	private void ListNegados() {
 		try {
 			negados = manager.NegadoByPeriodo(prdId);
@@ -372,6 +320,9 @@ public class MatriculadosBean {
 		}
 	}
 
+	/**
+	 * Método para listar matriculados
+	 */
 	private void ListMatriculados() {
 		try {
 			matriculados = manager.MatriculadoByPeriodo(prdId);
@@ -394,20 +345,7 @@ public class MatriculadosBean {
 		return lista;
 	}
 
-	/**
-	 * Lista de periodos
-	 * 
-	 * @return lista de items de estados
-	 */
-	public List<ArrReserva> getlistReserva() {
-		try {
-			reservas = manager.ReservaByPeriodo(prdId);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return reservas;
-	}
+	
 
 	/**
 	 * Maneja el proceso de selección, carga e inserción de datos de personas,
@@ -544,12 +482,10 @@ public class MatriculadosBean {
 	 * Abre un popup con la lista de errores
 	 */
 	private void mostrarListaErrores() {
-		e = "";
-		RequestContext.getCurrentInstance().execute("PF('dlgerr').show()");
 		for (String error : errores) {
-			e = e + error + "\n";
-			System.out.println(e);
+			System.out.println(error);
 		}
+		RequestContext.getCurrentInstance().execute("PF('dlgerr').show()");
 	}
 
 	/**
@@ -606,99 +542,13 @@ public class MatriculadosBean {
 		}
 	}
 
+	/**
+	 * Método para ver periodo
+	 */
 	public void verPeriodo() {
 		System.out.println(prdId);
 		this.ListMatriculados();
 		this.ListNegados();
-	}
-
-	/**
-	 * metodo para eliminar una reserva
-	 * 
-	 * @param res
-	 */
-	public void eliminarR(ArrReserva res) {
-		if (res.getArrSitioPeriodo().getArrPeriodo().getPrdEstado().equals("A")) {
-			manager.eliminarReserva(res);
-		} else {
-			Mensaje.crearMensajeWARN("La Reserva en dicho Periodo no puede ser Eliminada por ser un periodo Inactivo");
-		}
-
-	}
-
-	/**
-	 * Metodo para activar el boton de finalización
-	 * 
-	 * @param est
-	 * @return
-	 */
-	public boolean estado(String est) {
-		if (est.equals("F")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public String finalizar(ArrReserva res) {
-		try {
-			manager.cambiarEstado(res);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	public String estadosX(String a) {
-		if (a.equals("A"))
-			return "Activado";
-		else
-			return "Finalizado";
-	}
-
-	public void validarYCarga() {
-		System.out.println(prdId);
-	}
-
-	/**
-	 * Lista de periodos
-	 * 
-	 * @return lista de items de estados
-	 */
-	public List<SelectItem> getlistPeriodoAll() {
-		List<SelectItem> lista = new ArrayList<SelectItem>();
-		List<ArrPeriodo> per = manager.findAllPeriodos();
-		if (per != null)
-			for (ArrPeriodo p : per) {
-				lista.add(new SelectItem(p.getPrdId(), p.getPrdId()));
-			}
-		return lista;
-	}
-
-	public String nombre(String ci) {
-		ArrMatriculado m;
-		String re = "";
-		try {
-			m = manager.MatriculadoByCI(ci.trim());
-			re = m.getMatNombre();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return re;
-	}
-
-	public void setearContrato(String dni) {
-		try {
-			file3 = new DefaultStreamedContent(new FileInputStream(new File(Funciones.ruta_pdf + prdId
-					+ "_" + dni + ".pdf"))
-					, "application/pdf", prdId
-							+ "_" + dni + ".pdf");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	/**

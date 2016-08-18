@@ -235,7 +235,7 @@ public class ManagerCarga {
 	@SuppressWarnings("unchecked")
 	public ArrSitioPeriodo SitiosById(String per_id, String art_id) throws Exception {
 		List<ArrSitioPeriodo> ls = mngDao.findWhere(ArrSitioPeriodo.class,
-				"o.id.prdId='" + per_id + "' and o.id.artId=" + art_id + "", null);
+				"o.id.prdId='" + per_id + "' and o.id.artId='" + art_id + "'", null);
 		if (ls.isEmpty()) {
 			return null;
 		} else {
@@ -1028,6 +1028,13 @@ public class ManagerCarga {
 		return sit;
 	}
 	
+	/**
+	 * Método para verificar si la cédula existe
+	 * 
+	 * @param cedula
+	 * @return
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean verificarCedula(String cedula) throws Exception{
 		List<ArrMatriculado> s= mngDao.findWhere(ArrMatriculado.class, "o.id.perDni='"+cedula+"'", null);
@@ -1038,6 +1045,12 @@ public class ManagerCarga {
 			}
 	}
 	
+	/**
+	 * Método para verificar si un sitio existe
+	 * 
+	 * @param sitio
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean verificarSitio(String sitio){
 		List<ArrSitioPeriodo> s= mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre='"+sitio+"'", null);
@@ -1080,6 +1093,21 @@ public class ManagerCarga {
 		sitioOcupado.setSitLibres(sitioOcupado.getSitLibres() + 1);
 		System.out.println("DESPUES " + sitioOcupado.getSitLibres());
 		mngDao.actualizar(sitioOcupado);
+	}
+	
+	/**
+	 * Método para verificar si un sitio existe
+	 * 
+	 * @param sitio
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean verificarReserva(String sitio){
+		List<ArrReserva> s= mngDao.findWhere(ArrReserva.class, "o.arrSitioPeriodo.sitNombre='"+sitio+"'", null);
+		if (s==null || s.isEmpty()){
+			return false;
+		}else
+			return true;
 	}
 
 }
