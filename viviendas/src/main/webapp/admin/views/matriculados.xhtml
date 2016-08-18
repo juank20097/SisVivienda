@@ -61,7 +61,10 @@
 						</b:row>
 					</center>
 					<br />
-					<p:messages id="mensaje" closable="true"></p:messages>
+					<b:growl id="mensaje" delay="4000" placementFrom="top" show-detail="false"
+				global-only="false" show-summary="true" allow-dismiss="true"
+				animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" escape="true" />
 					<b:panel title="Listado" look="primary" collapsible="false">
 						<p:dataTable id="tbb" value="#{matriculadosBean.matriculados}"
 							reflow="true" var="mat" rows="8" emptyMessage="Sin Datos"
@@ -169,8 +172,12 @@
 					</b:column>
 				</b:row>
 			</p:dialog>
-			
 		</h:form>
+		
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<p:graphicImage value="../resources/img/cargando.gif" />
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 
