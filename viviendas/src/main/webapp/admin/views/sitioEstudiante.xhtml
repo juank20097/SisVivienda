@@ -60,10 +60,7 @@
 				</b:row>
 			</center>
 			<br />
-			<b:growl id="mensaje" delay="4000" placementFrom="top"
-				show-detail="false" global-only="false" show-summary="true"
-				allow-dismiss="true" animation-enter="animated bounceInDown"
-				animation-exit="animated flipOutX" escape="true" />
+			<p:messages id="mensaje" closable="true"></p:messages>
 			<b:panel title="Listado" look="primary" collapsible="false">
 				<p:dataTable id="tbb" value="#{estudianteSitioBean.l_estudiantes}"
 					reflow="true" var="est" rows="8" emptyMessage="Sin Datos"
