@@ -39,14 +39,15 @@
 									fileUploadListener="#{matriculadosBean.handleFileUpload}"
 									mode="advanced" dragDropSupport="false" multiple="false"
 									sizeLimit="300000" allowTypes="/(\.|\/)(xls)$/"
-									update="frm:dialog mensaje tbb" cancelLabel="Cancelar" uploadLabel="Subir"
-									label="Seleccionar"
+									update="frm:dialog mensaje tbb" cancelLabel="Cancelar"
+									uploadLabel="Subir" label="Seleccionar"
 									invalidFileMessage="Solo se aceptan archivos excel con extensión XLS" />
 							</b:column>
 							<b:column offset="2" span="3">
-							
+
 								<p:commandLink ajax="false">
-									<p:fileDownload value="#{matriculadosBean.descargarArchivoEjemplo()}" />
+									<p:fileDownload
+										value="#{matriculadosBean.descargarArchivoEjemplo()}" />
 									<h:outputLabel value="Plantilla Matriculados" />
 									<p:graphicImage width="20%" height="20%"
 										value="#{facesContex}/resources/img/xls.png"
@@ -61,10 +62,10 @@
 						</b:row>
 					</center>
 					<br />
-					<b:growl id="mensaje" delay="4000" placementFrom="top" show-detail="false"
-				global-only="false" show-summary="true" allow-dismiss="true"
-				animation-enter="animated bounceInDown"
-				animation-exit="animated flipOutX" escape="true" />
+					<b:growl id="mensaje" delay="4000" placementFrom="top"
+						show-detail="false" global-only="false" show-summary="true"
+						allow-dismiss="true" animation-enter="animated bounceInDown"
+						animation-exit="animated flipOutX" escape="true" />
 					<b:panel title="Listado" look="primary" collapsible="false">
 						<p:dataTable id="tbb" value="#{matriculadosBean.matriculados}"
 							reflow="true" var="mat" rows="8" emptyMessage="Sin Datos"
@@ -108,13 +109,15 @@
 								<p:fileUpload
 									fileUploadListener="#{matriculadosBean.handleFileUpload2}"
 									mode="advanced" dragDropSupport="false" multiple="false"
-									sizeLimit="100000" allowTypes="/(\.|\/)(xls)$/" update="frm:dialog mensaje tbb2"
-									cancelLabel="Cancelar" uploadLabel="Subir" label="Seleccionar"
+									sizeLimit="100000" allowTypes="/(\.|\/)(xls)$/"
+									update="frm:dialog mensaje tbb2" cancelLabel="Cancelar"
+									uploadLabel="Subir" label="Seleccionar"
 									invalidFileMessage="Solo se aceptan archivos excel con extensión XLS" />
 							</b:column>
 							<b:column offset="2" span="3">
 								<p:commandLink ajax="false">
-									<p:fileDownload value="#{matriculadosBean.descargarArchivoEjemplo2()}" />
+									<p:fileDownload
+										value="#{matriculadosBean.descargarArchivoEjemplo2()}" />
 									<h:outputLabel value="Plantilla Lista Negra" />
 									<p:graphicImage width="20%" height="20%"
 										value="#{facesContex}/resources/img/xls.png"
@@ -143,23 +146,24 @@
 								<h:outputText value="#{neg.negRazon}"></h:outputText>
 							</p:column>
 						</p:dataTable>
-						<br/>
+						<br />
 						<center>
-						<h:commandLink>
-							<p:dataExporter type="xls" target="tbb2"
-								fileName="Reporte_Lista_Negra" pageOnly="true" />
-							<p:graphicImage width="4%" height="4%" value="#{facesContex}/resources/img/xls.png"
-								styleClass="img-responsive" />
-							<b:label text="Descargar Datos"></b:label>
-						</h:commandLink>
+							<h:commandLink>
+								<p:dataExporter type="xls" target="tbb2"
+									fileName="Reporte_Lista_Negra" pageOnly="true" />
+								<p:graphicImage width="4%" height="4%"
+									value="#{facesContex}/resources/img/xls.png"
+									styleClass="img-responsive" />
+								<b:label text="Descargar Datos"></b:label>
+							</h:commandLink>
 						</center>
 					</b:panel>
 				</p:tab>
 			</p:tabView>
 
-			<p:dialog id="dialog" header="Errores de contenido" widgetVar="dlgerr"
-				width="500" modal="true" resizable="false" closable="true"
-				position="top">
+			<p:dialog id="dialog" header="Errores de contenido"
+				widgetVar="dlgerr" width="500" modal="true" resizable="false"
+				closable="true" position="top">
 				<p:column headerText="Error">
 					<h:outputText value="#{matriculadosBean.errores}" />
 				</p:column>
@@ -172,8 +176,12 @@
 					</b:column>
 				</b:row>
 			</p:dialog>
+
+			<p:idleMonitor timeout="600000">
+				 <p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
+			</p:idleMonitor>
 		</h:form>
-		
+
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
 			closable="false" resizable="false" showHeader="false">
 			<p:graphicImage value="../resources/img/cargando.gif" />

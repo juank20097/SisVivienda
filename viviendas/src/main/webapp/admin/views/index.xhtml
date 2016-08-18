@@ -16,12 +16,21 @@
 			<h1>Sistema Viviendas</h1>
 			<p>Este módulo del sistema gestiona la parte interna o control
 				total de los recursos para que el alumno pueda realizar una correcta
-				reservación de habitacion.El cual consta de una gestión en la creación de periodos académicos, Una fácil asignación de sitios para poder ser reservados por género y Carga de matriculados para cada uno de los periodos asignados.</p>
+				reservación de habitacion.El cual consta de una gestión en la
+				creación de periodos académicos, Una fácil asignación de sitios para
+				poder ser reservados por género y Carga de matriculados para cada
+				uno de los periodos asignados.</p>
 		</b:well>
 		<center>
 			<h:graphicImage value="#{facesContex}/resources/img/logo.png"
 				styleClass="img-responsive" />
 		</center>
+
+		<h:form>
+			<p:idleMonitor timeout="600000">
+				<p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
+			</p:idleMonitor>
+		</h:form>
 	</ui:define>
 </ui:composition>
 

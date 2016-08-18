@@ -9,7 +9,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
+import viviendas.controller.access.SesionBean;
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
@@ -32,6 +34,8 @@ public class ReservasBean {
 	// Atributos de la Clase
 	@EJB
 	private ManagerCarga manager;
+	@Inject
+	private SesionBean session;
 
 	// Atributos de PK
 	private String prdId;
@@ -43,6 +47,7 @@ public class ReservasBean {
 
 	@PostConstruct
 	public void ini() {
+		session.validarSesion();
 		reservas = new ArrayList<ArrReserva>();
 	}
 

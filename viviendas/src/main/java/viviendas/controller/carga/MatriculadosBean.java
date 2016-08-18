@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import jxl.Cell;
@@ -24,6 +25,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
+import viviendas.controller.access.SesionBean;
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrNegado;
 import viviendas.model.dao.entities.ArrPeriodo;
@@ -42,6 +44,8 @@ public class MatriculadosBean {
 	// Atributos de la Clase
 	@EJB
 	private ManagerCarga manager;
+	@Inject
+	private SesionBean session;
 
 	// Atributos de PK
 	private String prdId;
@@ -73,6 +77,7 @@ public class MatriculadosBean {
 	
 	@PostConstruct
 	public void ini() {
+		session.validarSesion();
 		matriculados = new ArrayList<ArrMatriculado>();
 		errores = new ArrayList<String>();
 		negados = new ArrayList<ArrNegado>();
@@ -81,6 +86,10 @@ public class MatriculadosBean {
 				.getResourceAsStream("/contratos/error.pdf");
 		file3 = new DefaultStreamedContent(stream3, "application/pdf",
 				"error.pdf");
+	}
+	
+	public void validarSesion(){
+		session.validarSesion();
 	}
 
 	/**

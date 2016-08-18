@@ -113,36 +113,38 @@ public class SesionBean implements Serializable{
         return "/admin/index?faces-redirect=true";
 	}
 	
-	/**
-	 * Verifica y devuelve el usuario en sesión
-	 * @param vista página principal de acceso
-	 * @return String
-	 */
-	public String validarSesion(String vista){
-		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                .getExternalContext().getSession(false);
-	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
-	     if (user==null || user.getUsuario() == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/viviendas/admin/index.xhtml");
-            } catch (IOException ex) {
-            	Mensaje.crearMensajeERROR(ex.getMessage());
-            }
-            return null;
-        }else{
-        	ManagerAcceso ma = new ManagerAcceso();
-        	if(ma.poseePermiso(vista, user.getMenu()))
-        		return user.getUsuario();
-        	else{
-        		try {
-       				FacesContext.getCurrentInstance().getExternalContext().redirect("/viviendas/admin/views/index.xhtml");
-	            } catch (IOException ex) {
-	            	Mensaje.crearMensajeERROR(ex.getMessage());
-	            }
-	            return null;
-        	}
-        }
-	}
+//	/**
+//	 * Verifica y devuelve el usuario en sesión
+//	 * @param vista página principal de acceso
+//	 * @return String
+//	 */
+//	public String validarSesion(String vista){
+//		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+//	                .getExternalContext().getSession(false);
+//		 session.setMaxInactiveInterval(1200);
+//	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+//	     System.out.println(user.getUsuario());
+//	     if (user==null || user.getUsuario() == null) {
+//            try {
+//                FacesContext.getCurrentInstance().getExternalContext().redirect("/viviendas/admin/index.xhtml");
+//            } catch (IOException ex) {
+//            	Mensaje.crearMensajeERROR(ex.getMessage());
+//            }
+//            return null;
+//        }else{
+//        	ManagerAcceso ma = new ManagerAcceso();
+//        	if(ma.poseePermiso(vista, user.getMenu()))
+//        		return user.getUsuario();
+//        	else{
+//        		try {
+//       				FacesContext.getCurrentInstance().getExternalContext().redirect("/viviendas/admin/views/index.xhtml");
+//	            } catch (IOException ex) {
+//	            	Mensaje.crearMensajeERROR(ex.getMessage());
+//	            }
+//	            return null;
+//        	}
+//        }
+//	}
 	
 	/**
 	 * Verifica y devuelve el usuario en sesión
@@ -152,7 +154,9 @@ public class SesionBean implements Serializable{
 	public String validarSesion(){
 		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
 	                .getExternalContext().getSession(false);
+		 session.setMaxInactiveInterval(1200);
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+	     System.out.println(user.getUsuario());
 	     if (user==null || user.getUsuario() == null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/viviendas/admin/index.xhtml");

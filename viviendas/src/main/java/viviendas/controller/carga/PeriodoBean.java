@@ -9,7 +9,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
+import viviendas.controller.access.SesionBean;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mensaje;
@@ -26,6 +28,8 @@ public class PeriodoBean {
 	// Atributos de la Clase
 	@EJB
 	private ManagerCarga manager;
+	@Inject
+	private SesionBean session;
 
 	private String prdId;
 	private String prdDescripcion;
@@ -40,6 +44,7 @@ public class PeriodoBean {
 	
 	@PostConstruct
 	public void pub() {
+		session.validarSesion();
 		edicion = false;
 	}
 

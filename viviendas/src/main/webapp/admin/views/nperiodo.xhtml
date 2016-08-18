@@ -68,6 +68,10 @@
 					<b:commandButton value="Cancelar" action="#{periodoBean.salir}"
 					immediate="true" update="frm" look="info"></b:commandButton>
 			</b:panel>
+			
+			<p:idleMonitor timeout="600000">
+				 <p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
+			</p:idleMonitor>
 		</h:form>
 	</ui:define>
 </ui:composition>

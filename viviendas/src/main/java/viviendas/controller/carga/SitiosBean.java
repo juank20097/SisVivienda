@@ -9,9 +9,11 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
+import viviendas.controller.access.SesionBean;
 import viviendas.model.conn.entities.GEN_Areas;
 import viviendas.model.conn.entities.GEN_Sitios;
 import viviendas.model.dao.entities.ArrPeriodo;
@@ -32,6 +34,8 @@ public class SitiosBean {
 	// Atributos de la Clase
 	@EJB
 	private ManagerCarga manager;
+	@Inject
+	private SesionBean session;
 
 	private String prdId;
 	private Integer areId;
@@ -49,11 +53,11 @@ public class SitiosBean {
 	private List<ArrSitioPeriodo> lsitper;
 
 	public SitiosBean() {
-
 	}
 
 	@PostConstruct
 	private void ini() {
+		session.validarSesion();
 		lsitios = new ArrayList<String>();
 		lsitper = new ArrayList<ArrSitioPeriodo>();
 	}

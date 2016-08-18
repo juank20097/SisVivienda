@@ -184,6 +184,11 @@
 						immediate="true" update=":frm" look="info"></b:commandButton>
 				</b:panel>
 			</p:dialog>
+			
+			<p:idleMonitor timeout="600000">
+				 <p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
+			</p:idleMonitor>
+			
 		</h:form>
 		
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"

@@ -55,6 +55,10 @@
 						
     				</p:dataTable>
 				</b:panel>
+				
+				<p:idleMonitor timeout="600000">
+				 <p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
+			</p:idleMonitor>
 			</h:form>
         </ui:define>
 	</ui:composition>

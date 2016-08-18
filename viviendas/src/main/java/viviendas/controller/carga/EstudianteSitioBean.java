@@ -8,10 +8,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
+import viviendas.controller.access.SesionBean;
 import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.generic.Mensaje;
@@ -32,8 +34,8 @@ public class EstudianteSitioBean {
 	// Atributos de la Clase
 	@EJB
 	private ManagerCarga manager;
-//	@Inject
-//	private SesionBean session;
+	@Inject
+	private SesionBean session;
 
 	private int NUMERO_COLUMNAS_EXCEL = 2;
 	
@@ -51,6 +53,7 @@ public class EstudianteSitioBean {
 
 	@PostConstruct
 	public void ini() {
+		session.validarSesion();
 		l_estudiantes = new ArrayList<ArrReserva>();
 		errores = new ArrayList<String>();
 	}
