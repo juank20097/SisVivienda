@@ -58,12 +58,12 @@ public class ManagerCarga {
 	private int LN_CEDULA = 0;
 	private int LN_RAZON = 1;
 
-	private String[] encabezados = { "CÉDULA", "NOMBRE_COMPLETO", "FECHA_NACIMIENTO", "NIVEL", "CARRERA",
+	private String[] encabezados = { "CEDULA", "NOMBRE_COMPLETO", "FECHA_NACIMIENTO", "NIVEL", "CARRERA",
 			"CORREO_INSTITUCIONAL", "CORREO_GENERAL", "GENERO" };
 
-	private String[] encabezados2 = { "CÉDULA", "RAZON" };
+	private String[] encabezados2 = { "CEDULA", "RAZON" };
 
-	private String[] encabezados3 = { "CÉDULA", "SITIO" };
+	private String[] encabezados3 = { "CEDULA", "SITIO" };
 
 	public ManagerCarga() {
 		conDao = SingletonJDBC.getInstance();
@@ -221,11 +221,12 @@ public class ManagerCarga {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ArrSitioPeriodo> SitiosXNomPeriodo(String nombre,String periodo) {
-		List<ArrSitioPeriodo> sp = mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre ='"+nombre+"' and o.id.prdId='"+periodo+"'", "o.sitNombre asc");
-		if (sp==null || sp.isEmpty()){
+	public List<ArrSitioPeriodo> SitiosXNomPeriodo(String nombre, String periodo) {
+		List<ArrSitioPeriodo> sp = mngDao.findWhere(ArrSitioPeriodo.class,
+				"o.sitNombre ='" + nombre + "' and o.id.prdId='" + periodo + "'", "o.sitNombre asc");
+		if (sp == null || sp.isEmpty()) {
 			return null;
-		}else{
+		} else {
 			return sp;
 		}
 	}
@@ -392,6 +393,10 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel(Cell[] row) {
+		System.out.println(row[POSICION_CEDULA].getContents() + "-" + row[POSICION_CARRERA].getContents() + "-"
+				+ row[POSICION_CORREO].getContents() + "-" + row[POSICION_CORREO_INS].getContents() + "-"
+				+ row[POSICION_FECHA].getContents() + "-" + row[POSICION_GENERO].getContents() + "-"
+				+ row[POSICION_NIVEL].getContents() + "-" + row[POSICION_NOMBRE].getContents());
 		if (row[POSICION_CEDULA].getContents().equals(encabezados[POSICION_CEDULA])
 				&& row[POSICION_CARRERA].getContents().equals(encabezados[POSICION_CARRERA])
 				&& row[POSICION_CORREO].getContents().equals(encabezados[POSICION_CORREO])
@@ -413,6 +418,7 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel2(Cell[] row) {
+		System.out.println(row[LN_CEDULA].getContents()+"-"+row[LN_RAZON].getContents());
 		if (row[LN_CEDULA].getContents().equals(encabezados2[LN_CEDULA])
 				&& row[LN_RAZON].getContents().equals(encabezados2[LN_RAZON])) {
 			return true;
@@ -428,6 +434,7 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel3(Cell[] row) {
+		System.out.println(row[SP_CEDULA].getContents()+"-"+row[SP_SITIO].getContents());
 		if (row[SP_CEDULA].getContents().equals(encabezados3[SP_CEDULA])
 				&& row[SP_SITIO].getContents().equals(encabezados3[SP_SITIO])) {
 			return true;
@@ -511,7 +518,7 @@ public class ManagerCarga {
 	 * @param column
 	 * @return String
 	 */
-	public String validarFilaExcel3(Cell[] column,String prd) {
+	public String validarFilaExcel3(Cell[] column, String prd) {
 		String errores = "";
 		// validar cedula
 		if (column[SP_CEDULA].getContents() == null || column[SP_CEDULA].getContents().trim().isEmpty()) {
@@ -520,22 +527,22 @@ public class ManagerCarga {
 			errores += " CÉDULA ESTUDIANTE inválido, ";
 		} else
 			try {
-				if (verificarCedula(column[SP_CEDULA].getContents().trim()) == false){
+				if (verificarCedula(column[SP_CEDULA].getContents().trim()) == false) {
 					errores += " CÉDULA ESTUDIANTE no encontrada en Matriculados, ";
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
 		// validar sitio
 		if (column[SP_SITIO].getContents() == null || column[SP_SITIO].getContents().trim().isEmpty()) {
 			errores += " SITIO vacío, ";
-		} else if (verificarSitio(column[SP_SITIO].getContents().trim(),prd) == false){
-					errores += " SITIO no encontrado para Reserva, ";
-		}else{
-			ArrSitioPeriodo sp=obtenerSitio(column[SP_SITIO].getContents().trim(),prd);
-			if(sp.getSitLibres()<=0){
+		} else if (verificarSitio(column[SP_SITIO].getContents().trim(), prd) == false) {
+			errores += " SITIO no encontrado para Reserva, ";
+		} else {
+			ArrSitioPeriodo sp = obtenerSitio(column[SP_SITIO].getContents().trim(), prd);
+			if (sp.getSitLibres() <= 0) {
 				errores += " SITIO copado para realizar la Reserva";
 			}
 		}
@@ -634,7 +641,7 @@ public class ManagerCarga {
 		neg.setNegRazon(datosNegros.get(LN_RAZON));
 		return neg;
 	}
-	
+
 	/**
 	 * Crea una instancia de Matriculados mediante una Lista de String
 	 * 
@@ -648,8 +655,8 @@ public class ManagerCarga {
 		res.setResEstado("A");
 		res.setResFechaCreacion(new Date());
 		res.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
-		res.setResId(datos.get(SP_CEDULA)+prd_id);
-		res.setArrSitioPeriodo(obtenerSitio(datos.get(SP_SITIO),prd_id));
+		res.setResId(datos.get(SP_CEDULA) + prd_id);
+		res.setArrSitioPeriodo(obtenerSitio(datos.get(SP_SITIO), prd_id));
 		return res;
 	}
 
@@ -686,7 +693,7 @@ public class ManagerCarga {
 			}
 		}
 	}
-	
+
 	/**
 	 * Permite el ingreso y actualización de datos de personal
 	 * 
@@ -723,7 +730,7 @@ public class ManagerCarga {
 	private void insertarNegado(ArrNegado person) throws Exception {
 		mngDao.insertar(person);
 	}
-	
+
 	/**
 	 * Guarda en la base de datos una persona
 	 * 
@@ -764,7 +771,7 @@ public class ManagerCarga {
 		negadoExistente.setNegRazon(person.getNegRazon());
 		mngDao.actualizar(negadoExistente);
 	}
-	
+
 	/**
 	 * Actualiza los datos de una persona
 	 * 
@@ -785,7 +792,6 @@ public class ManagerCarga {
 		aumentarCapacidadSitio(r.getArrSitioPeriodo());
 		reducirCapacidadSitio(r.getArrSitioPeriodo());
 	}
-
 
 	/**
 	 * Verifica la existencia de una persona
@@ -816,7 +822,7 @@ public class ManagerCarga {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Verifica la existencia de una persona
 	 * 
@@ -1033,7 +1039,7 @@ public class ManagerCarga {
 			throw new Exception("La consulta obtuvo varios resultados.");
 		return sit;
 	}
-	
+
 	/**
 	 * Método para verificar si la cédula existe
 	 * 
@@ -1042,15 +1048,15 @@ public class ManagerCarga {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean verificarCedula(String cedula) throws Exception{
-		List<ArrMatriculado> s= mngDao.findWhere(ArrMatriculado.class, "o.id.perDni='"+cedula+"'", null);
-			if (s==null || s.isEmpty()){
-				return false;
-			}else{
-				return true;
-			}
+	public boolean verificarCedula(String cedula) throws Exception {
+		List<ArrMatriculado> s = mngDao.findWhere(ArrMatriculado.class, "o.id.perDni='" + cedula + "'", null);
+		if (s == null || s.isEmpty()) {
+			return false;
+		} else {
+			return true;
+		}
 	}
-	
+
 	/**
 	 * Método para verificar si un sitio existe
 	 * 
@@ -1058,23 +1064,25 @@ public class ManagerCarga {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean verificarSitio(String sitio,String prd){
-		List<ArrSitioPeriodo> s= mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre='"+sitio+"' and o.id.prdId='"+prd+"'", null);
-		if (s==null || s.isEmpty()){
+	public boolean verificarSitio(String sitio, String prd) {
+		List<ArrSitioPeriodo> s = mngDao.findWhere(ArrSitioPeriodo.class,
+				"o.sitNombre='" + sitio + "' and o.id.prdId='" + prd + "'", null);
+		if (s == null || s.isEmpty()) {
 			return false;
-		}else
+		} else
 			return true;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ArrSitioPeriodo obtenerSitio(String sitio,String periodo){
-		List<ArrSitioPeriodo> s= mngDao.findWhere(ArrSitioPeriodo.class, "o.sitNombre='"+sitio+"' and o.id.prdId='"+periodo+"'", null);
-		if (s==null || s.isEmpty()){
+	public ArrSitioPeriodo obtenerSitio(String sitio, String periodo) {
+		List<ArrSitioPeriodo> s = mngDao.findWhere(ArrSitioPeriodo.class,
+				"o.sitNombre='" + sitio + "' and o.id.prdId='" + periodo + "'", null);
+		if (s == null || s.isEmpty()) {
 			return null;
-		}else
+		} else
 			return s.get(0);
 	}
-	
+
 	/**
 	 * Reducir capacidad de sitio
 	 * 
@@ -1087,7 +1095,6 @@ public class ManagerCarga {
 		mngDao.actualizar(sitio);
 	}
 
-	
 	/**
 	 * Aumentar capacidad de sitio
 	 * 
@@ -1100,7 +1107,7 @@ public class ManagerCarga {
 		System.out.println("DESPUES " + sitioOcupado.getSitLibres());
 		mngDao.actualizar(sitioOcupado);
 	}
-	
+
 	/**
 	 * Método para verificar si un sitio existe
 	 * 
@@ -1108,14 +1115,15 @@ public class ManagerCarga {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean verificarReserva(String sitio,String periodo){
-		List<ArrReserva> s= mngDao.findWhere(ArrReserva.class, "o.arrSitioPeriodo.sitNombre='"+sitio+"' and o.arrSitioPeriodo.id.prdId='"+periodo+"'", null);
-		if (s==null || s.isEmpty()){
+	public boolean verificarReserva(String sitio, String periodo) {
+		List<ArrReserva> s = mngDao.findWhere(ArrReserva.class,
+				"o.arrSitioPeriodo.sitNombre='" + sitio + "' and o.arrSitioPeriodo.id.prdId='" + periodo + "'", null);
+		if (s == null || s.isEmpty()) {
 			return false;
-		}else
+		} else
 			return true;
 	}
-	
+
 	/**
 	 * Metodo para obtener el Atributo mediante un ID
 	 * 
@@ -1131,7 +1139,7 @@ public class ManagerCarga {
 			// TODO: handle exception
 			return null;
 		}
-		
+
 	}// Cierre del metodo
 
 }

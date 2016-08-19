@@ -473,7 +473,7 @@ public class ReservaBean implements Serializable {
 			mngRes.agregarContratoReserva(estudiante, periodo.getPrdId());
 		} catch (Exception e) {
 			Funciones.descargarPdf(url_contrato + "error.pdf");
-			Mensaje.crearMensajeERROR("Error: " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 
 	}
