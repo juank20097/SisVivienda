@@ -38,7 +38,7 @@ public class Funciones {
 	public static String estadoFinalizado = "F";
 	public static String valorEstadoFinalizado = "Finalizado";
 	
-	//Atributos de Genero
+	//Atributos de Género
 	public static String estadoFemenino = "F";
 	public static String valorEstadoFemenino = "Femenino";
 	public static String estadoMasculino = "M";
