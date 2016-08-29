@@ -7,6 +7,10 @@
       xmlns:b="http://bootsfaces.net/ui">
 
 	<ui:composition template="template.xhtml">
+	<h:form>
+		<p:remoteCommand name="onload"
+			actionListener="#{sesionBean.validarSesion()}" autoRun="true" />
+	</h:form>
 		<ui:define name="titulo">
             Periodo
         </ui:define>

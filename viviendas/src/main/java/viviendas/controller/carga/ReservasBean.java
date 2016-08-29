@@ -111,7 +111,9 @@ public class ReservasBean {
 	 */
 	public List<ArrReserva> getlistReserva() {
 		try {
-			reservas = manager.ReservaByPeriodo(prdId);
+			if (!prdId.equals("Abril2016-Agosto2016")){
+				reservas = manager.ReservaByPeriodo(prdId);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

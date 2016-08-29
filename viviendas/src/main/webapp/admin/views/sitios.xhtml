@@ -7,6 +7,10 @@
 	xmlns:b="http://bootsfaces.net/ui">
 
 <ui:composition template="template.xhtml">
+<h:form>
+		<p:remoteCommand name="onload"
+			actionListener="#{sesionBean.validarSesion()}" autoRun="true" />
+	</h:form>
 	<ui:define name="titulo">
             Asignación
         </ui:define>
@@ -62,7 +66,7 @@
 						<h:outputLabel value="Sitios:" />
 					</b:column>
 					<b:column>
-						<p:selectManyMenu value="#{sitiosBean.lsitios}">
+						<p:selectManyMenu  value="#{sitiosBean.lsitios}">
 							<f:selectItems value="#{sitiosBean.listSitios}" />
 						</p:selectManyMenu>
 					</b:column>
@@ -82,11 +86,14 @@
 				animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" escape="true" />
 			<b:panel title="Listado" look="primary" collapsible="false">
-				<p:dataTable id="tbb" value="#{sitiosBean.lsitper}" reflow="true"
-					var="sit" rows="8" emptyMessage="Sin Datos" paginator="true"
-					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-					<p:column headerText="OPCIONES" width="100">
-						<p:commandButton icon="ui-icon-pencil"
+			<b:dataTable id="dt_sec" value="#{sitiosBean.lsitper}" var="sit"
+					styleClass="table table-striped table-bordered dt-responsive nowrap" 
+					fixedHeader="true" responsive="true" lang="es" style="width:100%" >
+					<h:column width="100">
+						<f:facet name="header">
+							<h:outputText value="OPCIONES" />
+						</f:facet>
+							<p:commandButton icon="ui-icon-pencil"
 							action="#{sitiosBean.cargarSitio(sit)}" update=":frm2:dialog" />
 						<p:commandButton icon="ui-icon-trash"
 							action="#{sitiosBean.eliminar(sit)}" update="frm">
@@ -101,27 +108,40 @@
 							<p:commandButton value="No" type="button"
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</p:confirmDialog>
-					</p:column>
-
-					<p:column filterBy="#{sit.sitNombre}" filterMatchMode="contains"
-						headerText="SITIO" width="200">
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="SITIO" />
+						</f:facet>
 						<h:outputText value="#{sit.sitNombre}"></h:outputText>
-					</p:column>
-					<p:column headerText="CAPACIDAD" width="100">
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="CAPACIDAD" />
+						</f:facet>
 						<h:outputText value="#{sit.sitCapacidad}"></h:outputText>
-					</p:column>
-					<p:column headerText="VALOR ARRIENDO" width="110">
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="VALOR ARRIENDO" />
+						</f:facet>
 						<h:outputText value="#{sit.sitValorArriendo}">
 							<f:convertNumber type="currency" currencySymbol="$" />
 						</h:outputText>
-					</p:column>
-					<p:column headerText="PERIODO" width="200">
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="PERIODO" />
+						</f:facet>
 						<h:outputText value="#{sit.id.prdId}" />
-					</p:column>
-					<p:column headerText="GENERO" width="100">
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="GÉNERO" />
+						</f:facet>
 						<h:outputText value="#{sit.sitGenero}"></h:outputText>
-					</p:column>
-				</p:dataTable>
+					</h:column>
+					</b:dataTable>
 			</b:panel>
 		</h:form>
 

@@ -7,6 +7,10 @@
 	xmlns:b="http://bootsfaces.net/ui">
 
 <ui:composition template="template.xhtml">
+<h:form>
+		<p:remoteCommand name="onload"
+			actionListener="#{sesionBean.validarSesion()}" autoRun="true" />
+	</h:form>
 	<ui:define name="titulo">
             Reservas
         </ui:define>
@@ -22,7 +26,8 @@
 				<b:column span="6">
 					<h:selectOneMenu styleClass="form-control"
 						value="#{reservasBean.prdId}">
-						<p:ajax listener="#{reservasBean.validarYCarga()}"
+						<p:ajax onstart="PF('statusDialog').show()"
+								oncomplete="PF('statusDialog').hide()" listener="#{reservasBean.validarYCarga()}"
 							update="frm"></p:ajax>
 						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
 						<f:selectItems value="#{reservasBean.listPeriodoAll}" />
@@ -112,6 +117,11 @@
 				 <p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
 			</p:idleMonitor>
 		</h:form>
+		
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<p:graphicImage value="../resources/img/cargando.gif" />
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 

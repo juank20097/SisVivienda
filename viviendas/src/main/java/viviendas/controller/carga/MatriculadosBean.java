@@ -405,8 +405,7 @@ public class MatriculadosBean {
 				datosFila.clear();
 				for (int j = 0; j < NUMERO_COLUMNAS_EXCEL; j++) {
 					datosFila.add(hoja.getCell(j, i).getContents().trim());
-					if(j==2)
-						System.out.println("FECHA--> "+hoja.getCell(j, i).getContents());
+						System.out.println("Dato "+j+"-->"+hoja.getCell(j,i).getContents());
 				}
 				// Guardar datos en array
 				matriculados.add(manager.crearMatriculado(datosFila, prdId));

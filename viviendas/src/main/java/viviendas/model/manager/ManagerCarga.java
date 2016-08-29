@@ -53,6 +53,8 @@ public class ManagerCarga {
 	private int POSICION_CORREO_INS = 5;
 	private int POSICION_CORREO = 6;
 	private int POSICION_GENERO = 7;
+	
+	private String errores;
 
 	// POSICIONES DEL ARRAY DE DATOS DE LISTA NEGRA
 	private int LN_CEDULA = 0;
@@ -67,6 +69,7 @@ public class ManagerCarga {
 
 	public ManagerCarga() {
 		conDao = SingletonJDBC.getInstance();
+		errores="";
 	}
 
 	/**
@@ -259,7 +262,8 @@ public class ManagerCarga {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ArrSitioPeriodo> SitiosByPeriodo(String per_id) throws Exception {
-		List<ArrSitioPeriodo> ls = mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='" + per_id + "'", null);
+		List<ArrSitioPeriodo> ls = mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='" + per_id + "'",
+				"o.sitNombre asc");
 		if (ls.isEmpty()) {
 			return null;
 		} else {
@@ -418,7 +422,7 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel2(Cell[] row) {
-		System.out.println(row[LN_CEDULA].getContents()+"-"+row[LN_RAZON].getContents());
+		System.out.println(row[LN_CEDULA].getContents() + "-" + row[LN_RAZON].getContents());
 		if (row[LN_CEDULA].getContents().equals(encabezados2[LN_CEDULA])
 				&& row[LN_RAZON].getContents().equals(encabezados2[LN_RAZON])) {
 			return true;
@@ -434,7 +438,7 @@ public class ManagerCarga {
 	 * @return
 	 */
 	public boolean validarEncabezadosExcel3(Cell[] row) {
-		System.out.println(row[SP_CEDULA].getContents()+"-"+row[SP_SITIO].getContents());
+		System.out.println(row[SP_CEDULA].getContents() + "-" + row[SP_SITIO].getContents());
 		if (row[SP_CEDULA].getContents().equals(encabezados3[SP_CEDULA])
 				&& row[SP_SITIO].getContents().equals(encabezados3[SP_SITIO])) {
 			return true;
@@ -450,47 +454,54 @@ public class ManagerCarga {
 	 * @return String
 	 */
 	public String validarFilaExcel(Cell[] column) {
-		String errores = "";
-		// validar cedula
-		if (column[POSICION_CEDULA].getContents() == null || column[POSICION_CEDULA].getContents().trim().isEmpty()) {
-			errores += " CÉDULA ESTUDIANTE vacío, ";
-		} else if (Funciones.validacionCedula(column[POSICION_CEDULA].getContents().trim()) != true) {
-			errores += " CÉDULA ESTUDIANTE inválido, ";
-		}
-		// validar nombre
-		if (column[POSICION_NOMBRE].getContents() == null || column[POSICION_NOMBRE].getContents().trim().isEmpty()) {
-			errores += " NOMBRE ESTUDIANTE vacío, ";
-		}
-		// validar fecha nacimiento
-		if (column[POSICION_FECHA].getContents() == null || column[POSICION_FECHA].getContents().trim().isEmpty()) {
-			errores += " FECHA NACIMIENTO vacío, ";
-		}
-		// validar nivel
-		if (column[POSICION_NIVEL].getContents() == null || column[POSICION_NIVEL].getContents().trim().isEmpty()) {
-			errores += " NIVEL vacío, ";
-		}
-		// validar carrera
-		if (column[POSICION_CARRERA].getContents() == null || column[POSICION_CARRERA].getContents().trim().isEmpty()) {
-			errores += " CARRERA vacío, ";
-		}
-		// validar correo_institucional
-		if (column[POSICION_CORREO_INS].getContents() == null
-				|| column[POSICION_CORREO_INS].getContents().trim().isEmpty()) {
-			errores += " CORREO INSTITUCIONAL vacío, ";
-		} else {
-			if (Funciones.validarEmail(column[POSICION_CORREO_INS].getContents().trim()) != true)
-				errores += " CORREO INSTITUCIONAL invalido, ";
-		}
-		// validar correo
-		if (column[POSICION_CORREO].getContents() == null || column[POSICION_CORREO].getContents().trim().isEmpty()) {
-			errores += " CORREO GENERAL vacío, ";
-		} else {
-			if (Funciones.validarEmail(column[POSICION_CORREO].getContents().trim()) != true)
-				errores += " CORREO GENERAL invalido, ";
-		}
-		// validar genero
-		if (column[POSICION_GENERO].getContents() == null || column[POSICION_GENERO].getContents().trim().isEmpty()) {
-			errores += " GENERO vacío, ";
+		errores = "";
+		if (column.length >= 8) {
+			// validar cedula
+			if (column[POSICION_CEDULA].getContents() == null
+					|| column[POSICION_CEDULA].getContents().trim().isEmpty()) {
+				errores += " CÉDULA ESTUDIANTE vacío, ";
+			} else if (Funciones.validacionCedula(column[POSICION_CEDULA].getContents().trim()) != true) {
+				errores += " CÉDULA ESTUDIANTE inválido, ";
+			}
+			// validar nombre
+			if (column[POSICION_NOMBRE].getContents() == null
+					|| column[POSICION_NOMBRE].getContents().trim().isEmpty()) {
+				errores += " NOMBRE ESTUDIANTE vacío, ";
+			}
+			// validar fecha nacimiento
+			if (column[POSICION_FECHA].getContents() == null || column[POSICION_FECHA].getContents().trim().isEmpty()) {
+				errores += " FECHA NACIMIENTO vacío, ";
+			}
+			// validar nivel
+			if (column[POSICION_NIVEL].getContents() == null || column[POSICION_NIVEL].getContents().trim().isEmpty()) {
+				errores += " NIVEL vacío, ";
+			}
+			// validar carrera
+			if (column[POSICION_CARRERA].getContents() == null
+					|| column[POSICION_CARRERA].getContents().trim().isEmpty()) {
+				errores += " CARRERA vacío, ";
+			}
+			// validar correo_institucional
+			if (column[POSICION_CORREO_INS].getContents() == null
+					|| column[POSICION_CORREO_INS].getContents().trim().isEmpty()) {
+				errores += " CORREO INSTITUCIONAL vacío, ";
+			} else {
+				if (Funciones.validarEmail(column[POSICION_CORREO_INS].getContents().trim()) != true)
+					errores += " CORREO INSTITUCIONAL invalido, ";
+			}
+			// validar correo
+			if (column[POSICION_CORREO].getContents() == null
+					|| column[POSICION_CORREO].getContents().trim().isEmpty()) {
+				errores += " CORREO GENERAL vacío, ";
+			} else {
+				if (Funciones.validarEmail(column[POSICION_CORREO].getContents().trim()) != true)
+					errores += " CORREO GENERAL invalido, ";
+			}
+			// validar genero
+			if (column[POSICION_GENERO].getContents() == null
+					|| column[POSICION_GENERO].getContents().trim().isEmpty()) {
+				errores += " GENERO vacío, ";
+			}
 		}
 		// retornar errores
 		return errores;
@@ -504,12 +515,15 @@ public class ManagerCarga {
 	 */
 	public String validarFilaExcel2(Cell[] column) {
 		String errores = "";
-		// validar cedula
-		if (column[LN_CEDULA].getContents() == null || column[LN_CEDULA].getContents().trim().isEmpty()) {
-			errores += " CÉDULA ESTUDIANTE vacío, ";
+		if (column.length >= 2) {
+			// validar cedula
+			if (column[LN_CEDULA].getContents() == null || column[LN_CEDULA].getContents().trim().isEmpty()) {
+				errores += " CÉDULA ESTUDIANTE vacío, ";
+			}
 		}
 		// retornar errores
 		return errores;
+
 	}
 
 	/**
@@ -520,6 +534,7 @@ public class ManagerCarga {
 	 */
 	public String validarFilaExcel3(Cell[] column, String prd) {
 		String errores = "";
+		if (column.length>=2){
 		// validar cedula
 		if (column[SP_CEDULA].getContents() == null || column[SP_CEDULA].getContents().trim().isEmpty()) {
 			errores += " CÉDULA ESTUDIANTE vacío, ";
@@ -545,6 +560,7 @@ public class ManagerCarga {
 			if (sp.getSitLibres() <= 0) {
 				errores += " SITIO copado para realizar la Reserva";
 			}
+		}
 		}
 		// retornar errores
 		return errores;
@@ -707,6 +723,36 @@ public class ManagerCarga {
 				actualizarReserva(re);
 			} else {
 				insertarReserva(re);
+			}
+//			if (comprobarDisponibilidad(re)){
+//				if (existeReserva(re.getResId())) {
+//					actualizarReserva(re);
+//				} else {
+//					insertarReserva(re);
+//				}
+//			}else{
+//				errores += "El sitio "+re.getArrSitioPeriodo().getSitNombre()+"esta copado para realizar más reservas";
+//			}
+		}
+	}
+	
+	/**
+	 * Método para verificar si el sitio esta copado o no.
+	 * 
+	 * @param r
+	 * @return
+	 */
+	@SuppressWarnings( "unchecked" )
+	public boolean comprobarDisponibilidad(ArrReserva r){
+		List<ArrSitioPeriodo> sp = mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+r.getArrSitioPeriodo().getId().getPrdId()+"' and o.id.artId='"+r.getArrSitioPeriodo().getId().getArtId()+"'", null);
+		if (sp==null || sp.size()==0){
+			return false;
+		}else{
+			ArrSitioPeriodo p=sp.get(0);
+			if (p.getSitLibres()>0){
+				return true;
+			}else{
+				return false;
 			}
 		}
 	}
@@ -1066,7 +1112,7 @@ public class ManagerCarga {
 	@SuppressWarnings("unchecked")
 	public boolean verificarSitio(String sitio, String prd) {
 		List<ArrSitioPeriodo> s = mngDao.findWhere(ArrSitioPeriodo.class,
-				"o.sitNombre='" + sitio + "' and o.id.prdId='" + prd + "'", null);
+				"o.sitNombre='" + sitio.trim() + "' and o.id.prdId='" + prd.trim() + "'", null);
 		if (s == null || s.isEmpty()) {
 			return false;
 		} else
