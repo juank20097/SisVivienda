@@ -101,9 +101,13 @@ public class ManagerReserva {
 			destino.append(estudiante.getMatCorreo());
 		else if (estudiante.getMatCorreoIns() != null)
 			destino.append(estudiante.getMatCorreoIns());
-		Mail.generateAndSendEmail(destino.toString(), "Token para reserva de vivienda",
-				"Saludos cordiales, <br/>Su token de acceso es: " + token
-						+ "<br/><br/>Atentamente,<br/>Sistema de Arriendos Yachay.");
+		String mensaje = "Estimado/a estudiante: <br/>"
+				+ "<p>La finalidad de éste email es informarte que su clave de acceso es: <strong>" + token
+				+ "</strong>, la misma le servirá para ingresar al nuevo sistema de reserva de vivienda. En el mismo usted  deberá descargar el contrato de arrendamiento de la vivienda para el período de clases Septiembre 2016 - Febrero 2017"
+				+ "<br/>Recuerde que si usted no realiza a tiempo el ingreso al sistema y entrega su contrato, el espacio que le ha sido asignado se liberará para otorgarle a las personas  cuyas solicitudes están en lista de espera.</p>"
+				+ "<br/><br/><br/><br/>" + "Área de Promoción de la Vida Comunitaria<br/>"
+				+ "DIRECCION BIENESTAR ESTUDIANTIL";
+		Mail.generateAndSendEmail(destino.toString(), "Token para reserva de vivienda", mensaje);
 	}
 
 	/**
@@ -310,7 +314,7 @@ public class ManagerReserva {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Metodo para obtener el Atributo mediante un ID
 	 * 
@@ -326,7 +330,7 @@ public class ManagerReserva {
 			// TODO: handle exception
 			return null;
 		}
-		
+
 	}// Cierre del metodo
-	
+
 }
