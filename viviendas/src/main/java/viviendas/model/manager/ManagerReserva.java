@@ -101,23 +101,18 @@ public class ManagerReserva {
 			destino.append(estudiante.getMatCorreo());
 		else if (estudiante.getMatCorreoIns() != null)
 			destino.append(estudiante.getMatCorreoIns());
-		String mensaje = "Estimado/a estudiante: <br/>"
+		Mail.generateAndSendEmail(destino.toString(), "Token para reserva de vivienda", this.mensajeCorreo(token));
+	}
+
+	public String mensajeCorreo(String token){
+		return "Estimado/a estudiante: <br/>"
 				+ "<p>La finalidad de éste email es informarte que su clave de acceso es: <strong>" + token
 				+ "</strong>, la misma le servirá para ingresar al nuevo sistema de reserva de vivienda. En el mismo usted  deberá descargar el contrato de arrendamiento de la vivienda para el período de clases Septiembre 2016 - Febrero 2017"
 				+ "<br/>Recuerde que si usted no realiza a tiempo el ingreso al sistema y entrega su contrato, el espacio que le ha sido asignado se liberará para otorgarle a las personas  cuyas solicitudes están en lista de espera.</p>"
 				+ "<br/><br/><br/><br/>" + "Área de Promoción de la Vida Comunitaria<br/>"
-				+ "DIRECCION BIENESTAR ESTUDIANTIL";
-		Mail.generateAndSendEmail(destino.toString(), "Token para reserva de vivienda", mensaje);
+				+ "DIRECCIÓN BIENESTAR ESTUDIANTIL";
 	}
-
-	/**
-	 * Verifica si el token ingresado es correcto
-	 * 
-	 * @param matriculadoPK
-	 * @param token
-	 * @return boolean
-	 * @throws Exception
-	 */
+	
 	public boolean verificarTokenEstudiante(ArrMatriculadoPK matriculadoPK, String token) throws Exception {
 		ArrMatriculado estudiante = (ArrMatriculado) mngDao.findById(ArrMatriculado.class, matriculadoPK);
 		if (estudiante.getMatToken() == null)
