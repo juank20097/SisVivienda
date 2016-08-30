@@ -7,7 +7,7 @@
 	xmlns:b="http://bootsfaces.net/ui">
 
 <ui:composition template="template.xhtml">
-<h:form>
+	<h:form>
 		<p:remoteCommand name="onload"
 			actionListener="#{sesionBean.validarSesion()}" autoRun="true" />
 	</h:form>
@@ -27,8 +27,8 @@
 					<h:selectOneMenu styleClass="form-control"
 						value="#{reservasBean.prdId}">
 						<p:ajax onstart="PF('statusDialog').show()"
-								oncomplete="PF('statusDialog').hide()" listener="#{reservasBean.validarYCarga()}"
-							update="frm"></p:ajax>
+							oncomplete="PF('statusDialog').hide()"
+							listener="#{reservasBean.validarYCarga()}" update="frm"></p:ajax>
 						<f:selectItem itemLabel="--Seleccione--" itemValue="-1"></f:selectItem>
 						<f:selectItems value="#{reservasBean.listPeriodoAll}" />
 					</h:selectOneMenu>
@@ -101,7 +101,9 @@
 						<f:facet name="header">
 							<h:outputText value="CONTRATO" />
 						</f:facet>
-						<p:commandButton value="Descargar" actionListener="#{reservasBean.bajarContrato(res.perDni)}" ajax="false">
+						<p:commandButton value="Descargar"
+							actionListener="#{reservasBean.bajarContrato(res.perDni)}"
+							ajax="false">
 						</p:commandButton>
 					</h:column>
 					<h:column>
@@ -111,13 +113,21 @@
 						<h:outputText value="#{reservasBean.estadosX(res.resEstado)}"></h:outputText>
 					</h:column>
 				</b:dataTable>
+				<center>
+					<p:commandLink ajax="false" update="mensaje2"
+						action="#{reservasBean.descargarReservas()}">
+						<p:graphicImage value="/resources/img/xls.png"
+							styleClass="img-responsive" />
+						<b:label text="Descargar Datos"></b:label>
+					</p:commandLink>
+				</center>
 			</b:panel>
-			
+
 			<p:idleMonitor timeout="600000">
-				 <p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
+				<p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
 			</p:idleMonitor>
 		</h:form>
-		
+
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
 			closable="false" resizable="false" showHeader="false">
 			<p:graphicImage value="../resources/img/cargando.gif" />

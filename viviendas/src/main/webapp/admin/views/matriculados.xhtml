@@ -103,6 +103,17 @@
 								<h:outputText value="#{mat.matGenero}"></h:outputText>
 							</p:column>
 						</p:dataTable>
+						<br />
+						<center>
+							<h:commandLink>
+								<p:dataExporter selectionOnly="false" type="xls" target="tbb"
+									fileName="Reporte_Matriculados" />
+								<p:graphicImage width="4%" height="4%"
+									value="#{facesContex}/resources/img/xls.png"
+									styleClass="img-responsive" />
+								<b:label text="Descargar Matriculados"></b:label>
+							</h:commandLink>
+						</center>
 					</b:panel>
 				</p:tab>
 				<p:tab title="Carga de Lista Negra">
@@ -154,11 +165,11 @@
 						<center>
 							<h:commandLink>
 								<p:dataExporter type="xls" target="tbb2"
-									fileName="Reporte_Lista_Negra" pageOnly="true" />
+									fileName="Reporte_Lista_Negra" />
 								<p:graphicImage width="4%" height="4%"
 									value="#{facesContex}/resources/img/xls.png"
 									styleClass="img-responsive" />
-								<b:label text="Descargar Datos"></b:label>
+								<b:label text="Descargar Lista Negra"></b:label>
 							</h:commandLink>
 						</center>
 					</b:panel>

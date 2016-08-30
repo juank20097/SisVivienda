@@ -1,5 +1,9 @@
 package viviendas.controller.carga;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -8,8 +12,15 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import viviendas.controller.access.SesionBean;
 import viviendas.model.dao.entities.ArrMatriculado;
@@ -111,8 +122,9 @@ public class ReservasBean {
 	 */
 	public List<ArrReserva> getlistReserva() {
 		try {
-			if (!prdId.equals("Abril2016-Agosto2016")){
+			if (!getPrdId().equals("Abril2016-Agosto2016")){
 				reservas = manager.ReservaByPeriodo(prdId);
+				this.crearExcel(reservas);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -181,5 +193,74 @@ public class ReservasBean {
 			e.printStackTrace();
 		}
 	}
+	
+	// ////////////////////////////////////////(Métodos_creación_excel_imprimir)///////////////////////////////////////////////////////
+
+			public void crearExcel(List<ArrReserva> reserva) {
+				try {
+					ServletContext servletContext = (ServletContext) FacesContext
+							.getCurrentInstance().getExternalContext().getContext();
+					String url = servletContext.getRealPath(File.separator
+							+ "resources/excel");
+//					String url=url_doc+"/descarga";
+					System.out.println(url);
+					HSSFWorkbook libro = new HSSFWorkbook();
+					HSSFSheet hoja = libro.createSheet("Datos");
+					if (reserva!=null){
+					for (int i = 0; i <= reserva.size() - 1; i++) {
+						HSSFRow row = hoja.createRow(i);
+						llenarFilaExcel(reserva.get(i), row);
+					}
+					}
+					OutputStream out = new FileOutputStream(url+File.separator
+							+ "Reporte_Reservas.xls");
+					libro.write(out);
+					libro.close();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			public void llenarFilaExcel(ArrReserva reserva, HSSFRow row) {
+				if (row.getRowNum() == 0) {
+					HSSFCell celda0 = row.createCell(0);
+					celda0.setCellValue("CÉDULA");
+					HSSFCell celda1 = row.createCell(1);
+					celda1.setCellValue("USUARIO");
+					HSSFCell celda2 = row.createCell(2);
+					celda2.setCellValue("PERIODO");
+					HSSFCell celda3 = row.createCell(3);
+					celda3.setCellValue("SITIO");
+					HSSFCell celda4 = row.createCell(4);
+					celda4.setCellValue("ESTADO");
+				} else {
+					HSSFCell celda0 = row.createCell(0);
+					celda0.setCellValue(reserva.getPerDni());
+					HSSFCell celda1 = row.createCell(1);
+					celda1.setCellValue(reserva.getResUsuario());
+					HSSFCell celda2 = row.createCell(2);
+					celda2.setCellValue(reserva.getArrSitioPeriodo().getId().getPrdId());
+					HSSFCell celda3 = row.createCell(3);
+					celda3.setCellValue(reserva.getArrSitioPeriodo().getSitNombre());
+					HSSFCell celda4 = row.createCell(4);
+					celda4.setCellValue(reserva.getResEstado());
+				}
+			}
+
+			
+			public void descargarReservas() {
+				if (getPrdId()==null || getPrdId().equals("-1")){
+					Mensaje.crearMensajeWARN("No se puede realizar la exportación del archivo porque el periodo está vacío o nulo.");
+				}else{
+					ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
+							.getContext();
+					String contextPath = servletContext
+							.getRealPath(File.separator + "resources/excel/Reporte_Reservas.xls");
+//				Funciones.descargarExcel(url_doc+"/descargaDatosExcel_Estudiante.xls");
+				Funciones.descargarExcel(contextPath);
+				}
+			}
 
 }

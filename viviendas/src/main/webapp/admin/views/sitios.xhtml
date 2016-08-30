@@ -142,6 +142,14 @@
 						<h:outputText value="#{sit.sitGenero}"></h:outputText>
 					</h:column>
 					</b:dataTable>
+					<center>
+							<p:commandLink ajax="false" update="mensaje2"
+								action="#{sitiosBean.descargarSitios()}">
+								<p:graphicImage value="/resources/img/xls.png"
+									styleClass="img-responsive" />
+								<b:label text="Descargar Datos"></b:label>
+							</p:commandLink>
+						</center>
 			</b:panel>
 		</h:form>
 
