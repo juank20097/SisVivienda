@@ -18,8 +18,9 @@ and open the template in the editor.
 		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<title><ui:insert name="titulo">Template</ui:insert></title>
 	<h:outputStylesheet library="css" name="estilos.css" />
+	<f:event listener="#{sesionBean.validarSesion()}" type="preRenderView"></f:event>
 </h:head>
-<h:body >
+<h:body>
 	<b:navBar brand="Sis_Viviendas" inverse="true" brandHref="index.xhtml">
 		<b:navbarLinks>
 			<b:navbarLinks>
@@ -54,6 +55,14 @@ and open the template in the editor.
 					onclick="PF('cs').hide();" />
 			</p:confirmDialog>
 		</h:form>
+		<h:form>
+		<p:remoteCommand name="onload"
+			actionListener="#{sesionBean.validarSesion()}" autoRun="true" />
+			
+			<p:idleMonitor timeout="600000">
+				<p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
+			</p:idleMonitor>
+	</h:form>
 	</b:container>
 </h:body>
 </html>

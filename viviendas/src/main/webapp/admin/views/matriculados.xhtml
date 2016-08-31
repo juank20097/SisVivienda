@@ -7,10 +7,6 @@
 	xmlns:b="http://bootsfaces.net/ui">
 
 <ui:composition template="template.xhtml">
-<h:form>
-		<p:remoteCommand name="onload"
-			actionListener="#{sesionBean.validarSesion()}" autoRun="true" />
-	</h:form>
 	<ui:define name="titulo">
             Matriculados
         </ui:define>
@@ -75,6 +71,23 @@
 							reflow="true" var="mat" rows="8" emptyMessage="Sin Datos"
 							paginator="true"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column headerText="OPCIONES" width="100">
+								<p:commandButton icon="ui-icon-trash"
+									action="#{matriculadosBean.eliminarMatriculado(mat)}"
+									update="frm">
+									<p:confirm header="Confirmación"
+										message="Seguro quieres Eliminar al Matriculado?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Si" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+							</p:column>
 							<p:column filterBy="#{mat.id.perDni}" filterMatchMode="contains"
 								headerText="CÉDULA" width="100">
 								<h:outputText value="#{mat.id.perDni}"></h:outputText>
@@ -153,6 +166,23 @@
 							reflow="true" var="neg" rows="8" emptyMessage="Sin Datos"
 							paginator="true"
 							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column headerText="OPCIONES" width="100">
+								<p:commandButton icon="ui-icon-trash"
+									action="#{matriculadosBean.eliminarNegado(neg)}"
+									update="frm">
+									<p:confirm header="Confirmación"
+										message="Seguro quieres Eliminar al estudiante Negado?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Si" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+							</p:column>
 							<p:column filterBy="#{neg.id.perDni}" filterMatchMode="contains"
 								headerText="CÉDULA" width="100">
 								<h:outputText value="#{neg.id.perDni}"></h:outputText>
@@ -191,10 +221,6 @@
 					</b:column>
 				</b:row>
 			</p:dialog>
-
-			<p:idleMonitor timeout="600000">
-				 <p:ajax event="idle" listener="#{sesionBean.validarSesion()}" />
-			</p:idleMonitor>
 		</h:form>
 
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"

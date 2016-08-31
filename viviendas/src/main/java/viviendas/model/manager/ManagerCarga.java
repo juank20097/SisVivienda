@@ -53,7 +53,7 @@ public class ManagerCarga {
 	private int POSICION_CORREO_INS = 5;
 	private int POSICION_CORREO = 6;
 	private int POSICION_GENERO = 7;
-	
+
 	private String errores;
 
 	// POSICIONES DEL ARRAY DE DATOS DE LISTA NEGRA
@@ -69,7 +69,7 @@ public class ManagerCarga {
 
 	public ManagerCarga() {
 		conDao = SingletonJDBC.getInstance();
-		errores="";
+		errores = "";
 	}
 
 	/**
@@ -329,11 +329,6 @@ public class ManagerCarga {
 		}
 	}
 
-	/**
-	 * Metod para eliminar un ArrSitioPeriodo
-	 * 
-	 * @param sit
-	 */
 	public void eliminarReserva(ArrReserva res) {
 		try {
 			// proceso para añadir 1 a SitioPeriodo
@@ -342,6 +337,24 @@ public class ManagerCarga {
 			r.setSitLibres(res.getArrSitioPeriodo().getSitLibres() + 1);
 			mngDao.actualizar(r);
 			mngDao.eliminar(ArrReserva.class, res.getResId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void eliminarMatriculado(ArrMatriculado matriculado) throws Exception {
+		try {
+			mngDao.eliminar(ArrMatriculado.class, matriculado.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void eliminarListaNegra(ArrNegado negado) throws Exception {
+		try {
+			mngDao.eliminar(ArrMatriculado.class, negado.getId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -534,36 +547,39 @@ public class ManagerCarga {
 	 */
 	public String validarFilaExcel3(Cell[] column, String prd) {
 		String errores = "";
-		if (column.length>=2){
-		// validar cedula
-		if (column[SP_CEDULA].getContents() == null || column[SP_CEDULA].getContents().trim().isEmpty()) {
-			errores += " CÉDULA ESTUDIANTE vacío, ";
-		} else if (Funciones.validacionCedula(column[SP_CEDULA].getContents().trim()) != true) {
-			errores += " CÉDULA ESTUDIANTE inválido, ";
-		} else
+		if (column.length >= 2) {
 			try {
+				// validar cedula
+				if (column[SP_CEDULA].getContents() == null || column[SP_CEDULA].getContents().trim().isEmpty()) {
+					errores += " CÉDULA ESTUDIANTE vacío, ";
+				} else if (Funciones.validacionCedula(column[SP_CEDULA].getContents().trim()) != true) {
+					errores += " CÉDULA ESTUDIANTE inválido, ";
+				} else if (comprobarListaNegra(column[POSICION_CEDULA].getContents().trim(), prd)) {
+					errores += " CÉDULA ESTUDIANTE en Lista negra, ";
+				} else
+
 				if (verificarCedula(column[SP_CEDULA].getContents().trim()) == false) {
 					errores += " CÉDULA ESTUDIANTE no encontrada en Matriculados, ";
+					// validar sitio
+					if (column[SP_SITIO].getContents() == null || column[SP_SITIO].getContents().trim().isEmpty()) {
+						errores += " SITIO vacío, ";
+					} else if (verificarSitio(column[SP_SITIO].getContents().trim(), prd) == false) {
+						errores += " SITIO no encontrado para Reserva, ";
+					} else {
+						ArrSitioPeriodo sp = obtenerSitio(column[SP_SITIO].getContents().trim(), prd);
+						if (sp.getSitLibres() <= 0) {
+							errores += " SITIO copado para realizar la Reserva";
+						}
+					}
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-		// validar sitio
-		if (column[SP_SITIO].getContents() == null || column[SP_SITIO].getContents().trim().isEmpty()) {
-			errores += " SITIO vacío, ";
-		} else if (verificarSitio(column[SP_SITIO].getContents().trim(), prd) == false) {
-			errores += " SITIO no encontrado para Reserva, ";
-		} else {
-			ArrSitioPeriodo sp = obtenerSitio(column[SP_SITIO].getContents().trim(), prd);
-			if (sp.getSitLibres() <= 0) {
-				errores += " SITIO copado para realizar la Reserva";
-			}
-		}
 		}
 		// retornar errores
 		return errores;
+
 	}
 
 	/**
@@ -720,40 +736,62 @@ public class ManagerCarga {
 	public void ingresarEstudiante(List<ArrReserva> listado) throws Exception {
 		for (ArrReserva re : listado) {
 			if (existeReserva(re.getResId())) {
-				actualizarReserva(re);
+				modificarReserva(re);
 			} else {
-				insertarReserva(re);
+				crearReserva(re);
 			}
-//			if (comprobarDisponibilidad(re)){
-//				if (existeReserva(re.getResId())) {
-//					actualizarReserva(re);
-//				} else {
-//					insertarReserva(re);
-//				}
-//			}else{
-//				errores += "El sitio "+re.getArrSitioPeriodo().getSitNombre()+"esta copado para realizar más reservas";
-//			}
+			// if (comprobarDisponibilidad(re)){
+			// if (existeReserva(re.getResId())) {
+			// modificarReserva(re);
+			// } else {
+			// crearReserva(re);
+			// }
+			// }else{
+			// errores += "El sitio
+			// "+re.getArrSitioPeriodo().getSitNombre()+"esta copado para
+			// realizar más reservas";
+			// }
 		}
 	}
-	
+
 	/**
 	 * Método para verificar si el sitio esta copado o no.
 	 * 
 	 * @param r
 	 * @return
 	 */
-	@SuppressWarnings( "unchecked" )
-	public boolean comprobarDisponibilidad(ArrReserva r){
-		List<ArrSitioPeriodo> sp = mngDao.findWhere(ArrSitioPeriodo.class, "o.id.prdId='"+r.getArrSitioPeriodo().getId().getPrdId()+"' and o.id.artId='"+r.getArrSitioPeriodo().getId().getArtId()+"'", null);
-		if (sp==null || sp.size()==0){
+	@SuppressWarnings("unchecked")
+	public boolean comprobarDisponibilidad(ArrReserva r) {
+		List<ArrSitioPeriodo> sp = mngDao.findWhere(ArrSitioPeriodo.class,
+				"o.id.prdId='" + r.getArrSitioPeriodo().getId().getPrdId() + "' and o.id.artId='"
+						+ r.getArrSitioPeriodo().getId().getArtId() + "'",
+				null);
+		if (sp == null || sp.size() == 0) {
 			return false;
-		}else{
-			ArrSitioPeriodo p=sp.get(0);
-			if (p.getSitLibres()>0){
+		} else {
+			ArrSitioPeriodo p = sp.get(0);
+			if (p.getSitLibres() > 0) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
+		}
+	}
+
+	/**
+	 * Método para verificar si el sitio esta copado o no.
+	 * 
+	 * @param r
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean comprobarListaNegra(String cedula, String periodo) {
+		List<ArrNegado> sp = mngDao.findWhere(ArrNegado.class,
+				"o.id.prdId='" + cedula + "' and o.id.perDni='" + periodo + "'", null);
+		if (sp == null || sp.size() == 0) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
@@ -775,17 +813,6 @@ public class ManagerCarga {
 	 */
 	private void insertarNegado(ArrNegado person) throws Exception {
 		mngDao.insertar(person);
-	}
-
-	/**
-	 * Guarda en la base de datos una persona
-	 * 
-	 * @param person
-	 * @throws Exception
-	 */
-	private void insertarReserva(ArrReserva reserva) throws Exception {
-		mngDao.insertar(reserva);
-		reducirCapacidadSitio(reserva.getArrSitioPeriodo());
 	}
 
 	/**
@@ -818,25 +845,63 @@ public class ManagerCarga {
 		mngDao.actualizar(negadoExistente);
 	}
 
+	public void crearReserva(ArrReserva reserva) throws Exception {
+		mngDao.insertar(reserva);
+		// REDUCIR CAPACIDAD
+		reducirCapacidadSitio(reserva.getArrSitioPeriodo());
+	}
+
+	public void modificarReserva(ArrReserva res) throws Exception {
+		ArrReserva reserva = buscarReservaPorID(res.getPerDni(), res.getArrSitioPeriodo().getId().getPrdId());
+		ArrSitioPeriodo sitioAnterior = reserva.getArrSitioPeriodo();
+		if (!sitioAnterior.getSitNombre().equals(res.getArrSitioPeriodo().getSitNombre())) {
+			reserva.setResFechaCreacion(new Date());
+			reserva.setResFechaHoraCreacion(new Timestamp(new Date().getTime()));
+			reserva.setArrSitioPeriodo(res.getArrSitioPeriodo());
+			mngDao.actualizar(reserva);
+			// AUMENTAR CAPACIDAD ANTERIOR
+			aumentarCapacidadSitio(sitioAnterior);
+			// REDUCIR CAPACIDAD NUEVA
+			reducirCapacidadSitio(res.getArrSitioPeriodo());
+		}
+	}
+
 	/**
-	 * Actualiza los datos de una persona
+	 * Busca reserva por ID
 	 * 
-	 * @param person
+	 * @param perDNI
+	 * @param prdID
+	 * @return ArrReserva
 	 * @throws Exception
 	 */
-	private void actualizarReserva(ArrReserva reserva) throws Exception {
-		ArrReserva r = (ArrReserva) mngDao.findById(ArrReserva.class, reserva.getResId());
-		r.setArrSitioPeriodo(reserva.getArrSitioPeriodo());
-		r.setPerDni(reserva.getPerDni());
-		r.setResEstado(reserva.getResEstado());
-		r.setResContrato(reserva.getResContrato());
-		r.setResFechaCreacion(reserva.getResFechaCreacion());
-		r.setResFechaFinalizacion(reserva.getResFechaFinalizacion());
-		r.setResFechaHoraCreacion(reserva.getResFechaHoraCreacion());
-		r.setResFechaHoraFinalizacion(reserva.getResFechaHoraFinalizacion());
-		mngDao.actualizar(r);
-		aumentarCapacidadSitio(r.getArrSitioPeriodo());
-		reducirCapacidadSitio(r.getArrSitioPeriodo());
+	public ArrReserva buscarReservaPorID(String perDNI, String prdID) throws Exception {
+		String pk = perDNI + prdID;
+		return (ArrReserva) mngDao.findById(ArrReserva.class, pk);
+	}
+
+	/**
+	 * Reducir capacidad de sitio
+	 * 
+	 * @param sitioLibre
+	 * @throws Exception
+	 */
+	public void reducirCapacidadSitio(ArrSitioPeriodo sitioLibre) throws Exception {
+		ArrSitioPeriodo sitio = (ArrSitioPeriodo) mngDao.findById(ArrSitioPeriodo.class, sitioLibre.getId());
+		sitio.setSitLibres(sitio.getSitLibres() - 1);
+		mngDao.actualizar(sitio);
+	}
+
+	/**
+	 * Aumentar capacidad de sitio
+	 * 
+	 * @param sitioOcupado
+	 * @throws Exception
+	 */
+	public void aumentarCapacidadSitio(ArrSitioPeriodo sitioOcupado) throws Exception {
+		System.out.println("ANTES " + sitioOcupado.getSitLibres());
+		sitioOcupado.setSitLibres(sitioOcupado.getSitLibres() + 1);
+		System.out.println("DESPUES " + sitioOcupado.getSitLibres());
+		mngDao.actualizar(sitioOcupado);
 	}
 
 	/**
@@ -1127,31 +1192,6 @@ public class ManagerCarga {
 			return null;
 		} else
 			return s.get(0);
-	}
-
-	/**
-	 * Reducir capacidad de sitio
-	 * 
-	 * @param sitioLibre
-	 * @throws Exception
-	 */
-	public void reducirCapacidadSitio(ArrSitioPeriodo sitioLibre) throws Exception {
-		ArrSitioPeriodo sitio = (ArrSitioPeriodo) mngDao.findById(ArrSitioPeriodo.class, sitioLibre.getId());
-		sitio.setSitLibres(sitio.getSitLibres() - 1);
-		mngDao.actualizar(sitio);
-	}
-
-	/**
-	 * Aumentar capacidad de sitio
-	 * 
-	 * @param sitioOcupado
-	 * @throws Exception
-	 */
-	public void aumentarCapacidadSitio(ArrSitioPeriodo sitioOcupado) throws Exception {
-		System.out.println("ANTES " + sitioOcupado.getSitLibres());
-		sitioOcupado.setSitLibres(sitioOcupado.getSitLibres() + 1);
-		System.out.println("DESPUES " + sitioOcupado.getSitLibres());
-		mngDao.actualizar(sitioOcupado);
 	}
 
 	/**

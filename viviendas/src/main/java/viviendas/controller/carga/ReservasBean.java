@@ -29,6 +29,7 @@ import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mensaje;
 import viviendas.model.manager.ManagerCarga;
+import viviendas.model.manager.ManagerReserva;
 
 /**
  * @author jestevez
@@ -45,6 +46,8 @@ public class ReservasBean {
 	// Atributos de la Clase
 	@EJB
 	private ManagerCarga manager;
+	@EJB
+	private ManagerReserva managerReserva;
 	@Inject
 	private SesionBean session;
 

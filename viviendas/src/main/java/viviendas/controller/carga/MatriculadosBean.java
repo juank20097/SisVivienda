@@ -556,5 +556,31 @@ public class MatriculadosBean {
 //				+ "resources/excel/Ejemplo_Base_Lista_Negra.xls");
 		Funciones.descargarExcel(url_excel+"Ejemplo_Base_Lista_Negra.xls");
 	}
+	
+	public void eliminarMatriculado(ArrMatriculado matriculado){
+		try {
+			manager.eliminarMatriculado(matriculado);
+			Mensaje.crearMensajeINFO(" Estudiante matriculado eliminado correctamente.");
+			this.ListMatriculados();
+			this.ListNegados();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Mensaje.crearMensajeERROR("El estudiante matriculado no pudo ser eliminado.");
+			e.printStackTrace();
+		}
+	}
+	
+	public void eliminarNegado(ArrNegado negado){
+		try {
+			manager.eliminarListaNegra(negado);
+			Mensaje.crearMensajeINFO("Estudiante negado eliminado correctamente.");
+			this.ListMatriculados();
+			this.ListNegados();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Mensaje.crearMensajeERROR("El estudiante negado no pudo ser eliminado.");
+			e.printStackTrace();
+		}
+	}
 
 }
