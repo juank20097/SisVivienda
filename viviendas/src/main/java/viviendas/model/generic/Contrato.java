@@ -64,13 +64,13 @@ public class Contrato {
 
 		String c21p1 = "2.1. Son documentos habilitantes dentro del presente contrato, los siguientes:";
 
-		String c21p2 = "a)	Documentos que acreditan la capacidad legal de los comparecientes;";
+		String c21p2 = "Documentos que acreditan la capacidad legal de los comparecientes;";
 
-		String c21l1 = "b)	Acta de Entrega Recepción del inmueble, objeto de este contrato, donde describe el estado del inmueble al momento de recibir el inmueble;";
+		String c21l1 = "Acta de Entrega Recepción del inmueble, objeto de este contrato, donde describe el estado del inmueble al momento de recibir el inmueble;";
 
-		String c21l2 = "c)	Documento/Anexo, que contiene el listado, la descripción y el estado de los enseres, línea blanca y demás muebles entregados al ARRENDATARIO como parte de la vivienda arrendada;";
+		String c21l2 = "Documento/Anexo, que contiene el listado, la descripción y el estado de los enseres, línea blanca y demás muebles entregados al ARRENDATARIO como parte de la vivienda arrendada;";
 
-		String c21l3 = "d)	Resolución No. YACHAY EP-GG-2016-0010 de 28 de marzo de 2016, mediante la cual el Gerente General de la Empresa Pública YACHAY EP delegó a la Gerente Comercial la suscripción de los contratos de arrendamiento, entre esta Empresa Pública y los señores Docentes y Estudiantes de la Universidad YACHAY.";
+		String c21l3 = "Resolución No. YACHAY EP-GG-2016-0010 de 28 de marzo de 2016, mediante la cual el Gerente General de la Empresa Pública YACHAY EP delegó a la Gerente Comercial la suscripción de los contratos de arrendamiento, entre esta Empresa Pública y los señores Docentes y Estudiantes de la Universidad YACHAY.";
 
 		String c31p1 = "3.1. Las partes de común acuerdo conviene en celebrar el presente Contrato de Arrendamiento  por el cual, la ARRENDADORA entrega en arrendamiento a la/el ARRENDATARIO(A), el inmueble ubicado en "
 				+ nombreDepartamento
@@ -86,9 +86,9 @@ public class Contrato {
 
 		String c42p1 = "4.2. El valor antes mencionado será cancelado por el/la ARRENDATARIO(A) dentro de los diez (10) primeros días de cada mes, a través de cualquiera de las formas descritas a continuación:";
 
-		String c42l1 = "a)	Efectivo, en las oficinas de la Gerencia Comercial  ubicadas en la Tienda Yachay Store (planta baja del Bloque de Servicios de YACHAY E.P.).";
+		String c42l1 = "Efectivo, en las oficinas de la Gerencia Comercial  ubicadas en la Tienda Yachay Store (planta baja del Bloque de Servicios de YACHAY E.P.).";
 
-		String c42l2 = "b)	Tarjeta de crédito en la tienda Yachay Store (solo crédito corriente), ubicada en la planta baja del Bloque de Servicios de YACHAY E.P.).";
+		String c42l2 = "Tarjeta de crédito en la tienda Yachay Store (solo crédito corriente), ubicada en la planta baja del Bloque de Servicios de YACHAY E.P.).";
 
 		String c42p2 = "El ARRENDADOR deberá entregar el correspondiente comprobante de pago al ARRENDATARIO/A a fin de respaldar la transacción realizada. El único documento de constancia de pago es el RECIBO DE COBRO, el cual será entregado al ARRENDATARIO/A en las instalaciones de Yachay Store, una vez que se ha registrado. ";
 
@@ -102,69 +102,69 @@ public class Contrato {
 
 		String c61 = "6.1. La/el ARRENDATARIO(A) se obliga a:";
 
-		String c61l1 = "a)	Respetar la extensión del espacio físico y cuidar los bienes muebles asignados por la ARRENDADORA;";
+		String c61l1 = "Respetar la extensión del espacio físico y cuidar los bienes muebles asignados por la ARRENDADORA;";
 
-		String c61l2 = "b)	Mantener en buenas condiciones el inmueble arrendado, respetando el espacio físico asignado, cuidando los implementos descritos en el Anexo del presente Instrumento, conservando el orden y limpieza adecuados; debiendo entregar el inmueble a la culminación del presente contrato, en la misma forma en la que lo recibieron a través de la suscripción del Acta de Entrega Recepción;";
+		String c61l2 = "Mantener en buenas condiciones el inmueble arrendado, respetando el espacio físico asignado, cuidando los implementos descritos en el Anexo del presente Instrumento, conservando el orden y limpieza adecuados; debiendo entregar el inmueble a la culminación del presente contrato, en la misma forma en la que lo recibieron a través de la suscripción del Acta de Entrega Recepción;";
 
-		String c61l3 = "c)	Se prohíbe obstruir o suspender el adecuado funcionamiento de los sistemas de seguridad y sensores contra incendio;";
+		String c61l3 = "Se prohíbe obstruir o suspender el adecuado funcionamiento de los sistemas de seguridad y sensores contra incendio;";
 
-		String c61l4 = "d)	No consumir bebidas alcohólicas ni sustancias estupefacientes y psicotrópicas en las instalaciones del bien arrendado ni en los espacios públicos de la Ciudad del Conocimiento YACHAY;";
+		String c61l4 = "No consumir bebidas alcohólicas ni sustancias estupefacientes y psicotrópicas en las instalaciones del bien arrendado ni en los espacios públicos de la Ciudad del Conocimiento YACHAY;";
 
-		String c61l5 = "e)	No fumar dentro del bien arrendado, ni en espacios cerrados de la Ciudad del Conocimiento YACHAY;";
+		String c61l5 = "No fumar dentro del bien arrendado, ni en espacios cerrados de la Ciudad del Conocimiento YACHAY;";
 
-		String c61l6 = "f)	Cancelar cumplidamente el canon de arrendamiento;";
+		String c61l6 = "Cancelar cumplidamente el canon de arrendamiento;";
 
-		String c61l7 = "g)	Las mejoras que impliquen cambios en la estructura interna del inmueble arrendado, deberán ser autorizadas por escrito por la ARRENDADORA y asumidas por el ARRENDATARIO cuando estas sean desarmables; el ARRENDATARIO(A) deberá retirarlas a la finalización del contrato, sin que esto cause el detrimento del bien entregado en arrendamiento;";
+		String c61l7 = "Las mejoras que impliquen cambios en la estructura interna del inmueble arrendado, deberán ser autorizadas por escrito por la ARRENDADORA y asumidas por el ARRENDATARIO cuando estas sean desarmables; el ARRENDATARIO(A) deberá retirarlas a la finalización del contrato, sin que esto cause el detrimento del bien entregado en arrendamiento;";
 
-		String c61l8 = "h)	Responder por sus propios actos y por los de terceros que se encontraren en el inmueble arrendado;";
+		String c61l8 = "Responder por sus propios actos y por los de terceros que se encontraren en el inmueble arrendado;";
 
-		String c61l9 = "i)	No provocar algazaras o reyertas ocasionados por el ARRENDATARIO o por terceras personas que se encuentren en el interior del inmueble arrendado y/o en las inmediaciones de la Ciudad del Conocimiento YACHAY;";
+		String c61l9 = "No provocar algazaras o reyertas ocasionados por el ARRENDATARIO o por terceras personas que se encuentren en el interior del inmueble arrendado y/o en las inmediaciones de la Ciudad del Conocimiento YACHAY;";
 
-		String c61l10 = "j)	Se prohíbe portar, guardar o utilizar armas de fuego o artefactos explosivos y la tenencia de las mismas;";
+		String c61l10 = "Se prohíbe portar, guardar o utilizar armas de fuego o artefactos explosivos y la tenencia de las mismas;";
 
-		String c61l11 = "k)	Cumplir con lo establecido en el Reglamento de Régimen Disciplinario, el Código de Ética de YACHAYTECH y demás disposiciones emitidas por la Universidad de Investigación de Tecnología Experimental Yachay y por la Empresa Pública YACHAY E.P.; documentos/anexos que forma parte de este Contrato;";
+		String c61l11 = "Cumplir con lo establecido en el Reglamento de Régimen Disciplinario, el Código de Ética de YACHAYTECH y demás disposiciones emitidas por la Universidad de Investigación de Tecnología Experimental Yachay y por la Empresa Pública YACHAY E.P.; documentos/anexos que forma parte de este Contrato;";
 
-		String c61l12 = "l)	Cumplir las leyes, reglamentos, ordenanzas, acuerdos, convenios y demás normativa legal vigente en el país, emitidos por las entidades de control, por los Gobiernos Autónomos Descentralizados y por otros organismos en cumplimiento de sus funciones y competencias; ";
+		String c61l12 = "Cumplir las leyes, reglamentos, ordenanzas, acuerdos, convenios y demás normativa legal vigente en el país, emitidos por las entidades de control, por los Gobiernos Autónomos Descentralizados y por otros organismos en cumplimiento de sus funciones y competencias; ";
 
-		String c61l13 = "m)	Notificar inmediatamente a través del correo electrónico servicios@yachay.gob.ec, los daños en el inmueble para el arreglo o mantenimiento de los bienes e instalaciones del mismo. Ninguna solicitud o queja tendrá validez si no se la realiza por este medio;";
+		String c61l13 = "Notificar inmediatamente a través del correo electrónico servicios@yachay.gob.ec, los daños en el inmueble para el arreglo o mantenimiento de los bienes e instalaciones del mismo. Ninguna solicitud o queja tendrá validez si no se la realiza por este medio;";
 
-		String c61l14 = "n)	Nuestras cuentas y canales: Facebook y Twitter “Ciudad Yachay”, la línea 1800 YACHAY (922249), y el mail servicios@yachay.gob.ec son los únicos medios autorizados para emitir comunicados oficiales referentes a la información y actividades de interés general, concernientes a la Ciudad del Conocimiento. Es responsabilidad, de cada habitante, mantenerse informado y hacer uso adecuado de esta información;";
+		String c61l14 = "Nuestras cuentas y canales: Facebook y Twitter “Ciudad Yachay”, la línea 1800 YACHAY (922249), y el mail servicios@yachay.gob.ec son los únicos medios autorizados para emitir comunicados oficiales referentes a la información y actividades de interés general, concernientes a la Ciudad del Conocimiento. Es responsabilidad, de cada habitante, mantenerse informado y hacer uso adecuado de esta información;";
 
-		String c61l15 = "o)	Fomentar la creación de una identidad ciudadana mediante la participación, colaboración y apoyo a las distintas campañas, eventos y cualquier actividad generada en pro de la consolidación de este objetivo; ";
+		String c61l15 = "Fomentar la creación de una identidad ciudadana mediante la participación, colaboración y apoyo a las distintas campañas, eventos y cualquier actividad generada en pro de la consolidación de este objetivo; ";
 
-		String c61l16 = "p)	Respetar la distribución asignada, colaborando en los casos que por optimización de espacio deba ser reacomodado en otra residencia. En estos casos, si la nueva residencia y todo el mobiliario está listo, la mudanza deberá realizarse en 48 horas posteriores al requerimiento;";
+		String c61l16 = "Respetar la distribución asignada, colaborando en los casos que por optimización de espacio deba ser reacomodado en otra residencia. En estos casos, si la nueva residencia y todo el mobiliario está listo, la mudanza deberá realizarse en 48 horas posteriores al requerimiento;";
 		
-		String c61l17 = "q)	No está permitido la tenencia de mascotas ni alimentación de animales de la calle en espacios de residencias ni otros del Campus Universitario, en concordancia con la política de mascotas de la Universidad;";
+		String c61l17 = "No está permitido la tenencia de mascotas ni alimentación de animales de la calle en espacios de residencias ni otros del Campus Universitario, en concordancia con la política de mascotas de la Universidad;";
 		
-		String c61l18 = "r)	Cubrir los costos que generen las reparaciones de los daños ocasionados intencionalmente o por mal uso del bien producidos por el ARRENDATARIO en la vivienda y las reposiciones de los implementos descritos en el Anexo, que forma parte integrante de este Contrato; ";
+		String c61l18 = "Cubrir los costos que generen las reparaciones de los daños ocasionados intencionalmente o por mal uso del bien producidos por el ARRENDATARIO en la vivienda y las reposiciones de los implementos descritos en el Anexo, que forma parte integrante de este Contrato; ";
 		
-		String c61l19 = "s)	Permitir el acceso al inmueble a los representantes de YACHAY E.P. a fin de realizar inspecciones permanentes de conservación y mantenimiento del mismo con el objeto de verificar su estado. Las inspecciones se realizarán en presencia de al menos uno de los ARRENDATARIOS (AS). De haber sido notificado el ARRENDATARIO(A) con el incumplimiento de esta u otras  disposiciones por más de tres ocasiones, será motivo suficiente para negar una futura solicitud de arrendamiento;";
+		String c61l19 = "Permitir el acceso al inmueble a los representantes de YACHAY E.P. a fin de realizar inspecciones permanentes de conservación y mantenimiento del mismo con el objeto de verificar su estado. Las inspecciones se realizarán en presencia de al menos uno de los ARRENDATARIOS (AS). De haber sido notificado el ARRENDATARIO(A) con el incumplimiento de esta u otras  disposiciones por más de tres ocasiones, será motivo suficiente para negar una futura solicitud de arrendamiento;";
 		
-		String c61l20 = "t)	Permitir el acceso al inmueble a los representantes de YACHAY E.P. a fin de verificar el manejo de los residuos sólidos. En la vivienda asignada se deberá realizar la clasificación de residuos sólidos entre “orgánicos” e “inorgánicos”, para lo cual el ARRENDATARIO(A)  deberá adquirir el o los contenedores necesarios de residuos para cumplir con lo mencionado, en un plazo de quince (15) días después de la firma al presente contrato. La adquisición de contenedores es de entera responsabilidad del ARRENDATARIO(A). De haber sido notificado el ARRENDATARIO(A) con el incumplimiento de esta u otras  disposiciones por más de tres ocasiones, será motivo suficiente para negar una futura solicitud de arrendamiento;";
+		String c61l20 = "Permitir el acceso al inmueble a los representantes de YACHAY E.P. a fin de verificar el manejo de los residuos sólidos. En la vivienda asignada se deberá realizar la clasificación de residuos sólidos entre “orgánicos” e “inorgánicos”, para lo cual el ARRENDATARIO(A)  deberá adquirir el o los contenedores necesarios de residuos para cumplir con lo mencionado, en un plazo de quince (15) días después de la firma al presente contrato. La adquisición de contenedores es de entera responsabilidad del ARRENDATARIO(A). De haber sido notificado el ARRENDATARIO(A) con el incumplimiento de esta u otras  disposiciones por más de tres ocasiones, será motivo suficiente para negar una futura solicitud de arrendamiento;";
 		
-		String c61l21 = "u)	El ARRENDATARIO(A) deberá dar buen uso, mantenimiento y cuidado de las macetas y jardines en interiores y exteriores de la vivienda, en tal virtud está prohibido arrojar cualquier tipo de residuos hacia estos espacios. De haber sido notificado el ARRENDATARIO(A) con el incumplimiento de esta u otras  disposiciones por más de tres ocasiones, será motivo suficiente para negar una futura solicitud de arrendamiento;";
+		String c61l21 = "El ARRENDATARIO(A) deberá dar buen uso, mantenimiento y cuidado de las macetas y jardines en interiores y exteriores de la vivienda, en tal virtud está prohibido arrojar cualquier tipo de residuos hacia estos espacios. De haber sido notificado el ARRENDATARIO(A) con el incumplimiento de esta u otras  disposiciones por más de tres ocasiones, será motivo suficiente para negar una futura solicitud de arrendamiento;";
 		
-		String c61l22 = "v)	El ARRENDATARIO(A) no podrá destinar los espacios físicos a otro fin distinto que el establecido en el objeto del presente contrato; ";
+		String c61l22 = "El ARRENDATARIO(A) no podrá destinar los espacios físicos a otro fin distinto que el establecido en el objeto del presente contrato; ";
 		
-		String c61l23 = "w)	No subarrendar, ceder o transferir por cualquier concepto, el inmueble arrendado;";
+		String c61l23 = "No subarrendar, ceder o transferir por cualquier concepto, el inmueble arrendado;";
 		
-		String c61l24 = "x)	El ARRENDATARIO(A) está obligado a usar la vivienda arrendada según los términos o espíritu del Contrato; y no podrán, en consecuencia, hacerla servir a otros objetos que los convenidos, o a falta de convención expresa, a los que la cosa está naturalmente destinada, o que deban presumirse, atentas las circunstancias del contrato o la costumbre del país;";
+		String c61l24 = "El ARRENDATARIO(A) está obligado a usar la vivienda arrendada según los términos o espíritu del Contrato; y no podrán, en consecuencia, hacerla servir a otros objetos que los convenidos, o a falta de convención expresa, a los que la cosa está naturalmente destinada, o que deban presumirse, atentas las circunstancias del contrato o la costumbre del país;";
 		
-		String c61l25 = "y)	Permitir el ingreso al inmueble a los representantes de YACHAY E.P. a fin de realizar el CHECK OUT inicial con 15 (quince) días de anticipación a la terminación del contrato, para la verificación del estado del inmueble y sus bienes; el CHECK OUT final para la entrega de la vivienda, se realizará previa notificación y coordinación con al menos uno de los ARRENDATARIOS, momento en el cual se suscribirá la respectiva Acta de Entrega Recepción de bienes;";
+		String c61l25 = "Permitir el ingreso al inmueble a los representantes de YACHAY E.P. a fin de realizar el CHECK OUT inicial con 15 (quince) días de anticipación a la terminación del contrato, para la verificación del estado del inmueble y sus bienes; el CHECK OUT final para la entrega de la vivienda, se realizará previa notificación y coordinación con al menos uno de los ARRENDATARIOS, momento en el cual se suscribirá la respectiva Acta de Entrega Recepción de bienes;";
 		
-		String c61l26 = "z)	El/Los ARRENDATARIO(S) son solidariamente responsables de todas las obligaciones establecidas en el presente contrato. ";
+		String c61l26 = "El/Los ARRENDATARIO(S) son solidariamente responsables de todas las obligaciones establecidas en el presente contrato. ";
 		
 		String c62 = "6.2. LA ARRENDADORA se obliga a:";
 
-		String c62l1 = "a)	Entregar en óptimas condiciones y debidamente equipada, la vivienda materia del presente contrato;";
+		String c62l1 = "Entregar en óptimas condiciones y debidamente equipada, la vivienda materia del presente contrato;";
 
-		String c62l2 = "b)	Realizar, las veces que sea necesario, las reparaciones de la vivienda, que no se deban a daños ocasionados intencionalmente o por el mal uso del bien arrendado;";
+		String c62l2 = "Realizar, las veces que sea necesario, las reparaciones de la vivienda, que no se deban a daños ocasionados intencionalmente o por el mal uso del bien arrendado;";
 
-		String c62l3 = "c)	Efectuar el control y exterminio de plagas; en cuyo caso se deberá notificar al ARRENDATARIO con 24 horas de anticipación a la realización de la fumigación. Si dichas plagas se deben al inadecuado manejo de medidas de salubridad por parte de los ARRENDATARIOS, será responsabilidad de los mismos el control y exterminio de las plagas;";
+		String c62l3 = "Efectuar el control y exterminio de plagas; en cuyo caso se deberá notificar al ARRENDATARIO con 24 horas de anticipación a la realización de la fumigación. Si dichas plagas se deben al inadecuado manejo de medidas de salubridad por parte de los ARRENDATARIOS, será responsabilidad de los mismos el control y exterminio de las plagas;";
 
-		String c62l4 = "d)	Realizar inspecciones con el objeto de vigilar el adecuado mantenimiento, orden y limpieza de los bienes entregados en arrendamiento; visitas que se realizarán contando con la presencia de al menos uno de los Arrendatarios(a); y, ";
+		String c62l4 = "Realizar inspecciones con el objeto de vigilar el adecuado mantenimiento, orden y limpieza de los bienes entregados en arrendamiento; visitas que se realizarán contando con la presencia de al menos uno de los Arrendatarios(a); y, ";
 
-		String c62l5 = "e)	Realizar el CHECK IN y CHECK OUT en coordinación con al menos uno de los/las ARRENDATARIO(S) en los términos establecidos en este contrato.";
+		String c62l5 = "Realizar el CHECK IN y CHECK OUT en coordinación con al menos uno de los/las ARRENDATARIO(S) en los términos establecidos en este contrato.";
 
 		String c63 = "6.3. Las partes, se comprometen a suscribir el Acta Entrega Recepción al inicio y finalización de esta relación contractual. En este documento, se detallará el estado y las condiciones bajo las cuales se entrega y recibe el inmueble y los bienes, enseres que lo constituyen; y que forman parte del objeto de este Contrato.";
 
@@ -631,7 +631,7 @@ public class Contrato {
 				subtitulo));
 		t1c2f1.setBorder(Rectangle.NO_BORDER);
 
-		PdfPCell t2c1f1 = new PdfPCell(new Phrase("PAOLA SORIA MALDONADO ",
+		PdfPCell t2c1f1 = new PdfPCell(new Phrase("ING. PAOLA KATHERINE SORIA MALDONADO ",
 				parrafo));
 		t2c1f1.setBorder(Rectangle.NO_BORDER);
 
@@ -639,7 +639,7 @@ public class Contrato {
 				.toUpperCase(), parrafo));
 		t2c2f1.setBorder(Rectangle.NO_BORDER);
 
-		PdfPCell t2c1f2 = new PdfPCell(new Phrase("GERENTE COMERCIAL (E)",
+		PdfPCell t2c1f2 = new PdfPCell(new Phrase("GERENTE COMERCIAL",
 				parrafo));
 		t2c1f2.setBorder(Rectangle.NO_BORDER);
 
