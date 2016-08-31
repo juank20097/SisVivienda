@@ -7,6 +7,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.json.simple.JSONObject;
+
 import viviendas.model.dao.entities.ArrMatriculado;
 import viviendas.model.dao.entities.ArrMatriculadoPK;
 import viviendas.model.dao.entities.ArrNegado;
@@ -16,6 +18,7 @@ import viviendas.model.dao.entities.ArrPeriodo;
 import viviendas.model.dao.entities.ArrReserva;
 import viviendas.model.dao.entities.ArrSitioPeriodo;
 import viviendas.model.dao.entities.ArrSitioPeriodoPK;
+import viviendas.model.generic.ConsumeREST;
 import viviendas.model.generic.Funciones;
 import viviendas.model.generic.Mail;
 
@@ -101,7 +104,8 @@ public class ManagerReserva {
 			destino.append(estudiante.getMatCorreo());
 		else if (estudiante.getMatCorreoIns() != null)
 			destino.append(estudiante.getMatCorreoIns());
-		Mail.generateAndSendEmail(destino.toString(), "Token para reserva de vivienda", this.mensajeCorreo(token));
+		envioMailWS(destino.toString(), "Token para reserva de vivienda", this.mensajeCorreo(token));
+//		Mail.generateAndSendEmail(destino.toString(), "Token para reserva de vivienda", this.mensajeCorreo(token));
 	}
 
 	public String mensajeCorreo(String token){
@@ -309,7 +313,23 @@ public class ManagerReserva {
 			return null;
 		}
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	 public void envioMailWS(String para, String asunto, String body) throws Exception {
+	  ArrParametro param= ParametroByIDP("email_ws");
+	  ArrParametro idWS = ParametroByIDP("id_email");
+	  JSONObject objSalida = new JSONObject();
+	  objSalida.put("id", idWS.getParValor());
+	  objSalida.put("para", para);
+	  objSalida.put("asunto", asunto);
+	  objSalida.put("body",body);
+	  System.out.println("Envio Mail ---> "+objSalida);
+	  String url = param.getParValor();
+	  JSONObject respuesta = ConsumeREST.postClientRestEasy(url, objSalida);
+	  if (!respuesta.get("respuesta").equals("OK"))
+	   throw new Exception("Error al enviar el correo. (WS)");
+	 }
+	
 	/**
 	 * Metodo para obtener el Atributo mediante un ID
 	 * 
@@ -326,6 +346,25 @@ public class ManagerReserva {
 			return null;
 		}
 
-	}// Cierre del metodo
+	}
+	
+	/**
+	 * Metodo para obtener el Atributo mediante un ID
+	 * 
+	 * @param dni
+	 * @return Objeto
+	 * @throws Exception
+	 */
+	public ArrParametro ParametroByIDP(String dni) {
+		try {
+			ArrParametro p = (ArrParametro) mngDao.findById(ArrParametro.class, dni);
+			return p;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+
+	}
+
 
 }

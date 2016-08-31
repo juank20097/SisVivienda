@@ -89,6 +89,13 @@
 			<artifactId>jxl</artifactId>
 			<version>2.6.12</version>
 		</dependency>
+		<!-- CONSUME RESTEASY -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.2.1.GA</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- MAIL -->
 		<dependency>
 			<groupId>javax.mail</groupId>
