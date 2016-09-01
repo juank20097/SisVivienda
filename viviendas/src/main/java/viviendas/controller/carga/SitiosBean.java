@@ -288,7 +288,7 @@ public class SitiosBean {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
 		try {
 			for (GEN_Sitios a : manager.findAllSitiosXArea(areId, null)) {
-				if (añadido(a.getSit_nombre()) == false) {
+				if (anadido(a.getSit_nombre()) == false) {
 					lista.add(new SelectItem(a.getSit_nombre(), a.getSit_nombre()));
 				}
 			}
@@ -306,7 +306,7 @@ public class SitiosBean {
 	 * @param s
 	 * @return
 	 */
-	public boolean añadido(String nombre) {
+	public boolean anadido(String nombre) {
 		List<ArrSitioPeriodo> sp = manager.SitiosXNomPeriodo(nombre, prdId);
 		if (sp == null || sp.isEmpty()) {
 			return false;
