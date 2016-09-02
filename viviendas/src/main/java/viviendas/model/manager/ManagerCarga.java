@@ -532,6 +532,8 @@ public class ManagerCarga {
 			// validar cedula
 			if (column[LN_CEDULA].getContents() == null || column[LN_CEDULA].getContents().trim().isEmpty()) {
 				errores += " CÉDULA ESTUDIANTE vacío, ";
+			}else if (Funciones.validacionCedula(column[POSICION_CEDULA].getContents().trim()) != true) {
+				errores += " CÉDULA ESTUDIANTE inválido, ";
 			}
 		}
 		// retornar errores
